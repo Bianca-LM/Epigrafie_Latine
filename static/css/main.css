@@ -954,6 +954,11 @@ i.fa-info-circle:hover {
   font-size: 0.9em !important;
 }
 
+/*EPIGRAFI DATA CUSTOMIZATION*/
+p.textarea {
+  white-space-collapse: preserve-breaks !important;
+}
+
 /*display: inline !important;*/
 .columns {
   padding: 1em 0.2em;
@@ -1556,8 +1561,8 @@ select-selected.select-arrow-active:after {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* template page */
-.set_template_field {}
+/* template page 
+.set_template_field {}*/
 
 .block_field {
   padding: 1em;
@@ -2039,3 +2044,8 @@ button#showTemplates {
 .link_btn, .btn {white-space: nowrap;}
 .add_fields .link_btn {display: inline-block; margin-bottom: 8px}
 
+
+/*MAP*/
+#myMap {
+  height: 100%;
+}
