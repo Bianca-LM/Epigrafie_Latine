@@ -57,9 +57,9 @@ def get_form(json_form, from_dict=False):
 		# all
 		myid = field['id']
 		description = field['label'] if 'label' in field and len(field['label']) > 0 else 'input'
-		pre_a = "<span class='tip' data-toggle='tooltip' data-placement='bottom' title='"
-		pre_b = "'><i class='fas fa-info-circle'></i></span>"
-		prepend = pre_a+field['prepend']+pre_b if 'prepend' in field and len(field['prepend']) > 0 else ''
+		pre_a = '<span class="tip" data-toggle="tooltip" data-placement="bottom" title="'
+		pre_b = '"><i class="fas fa-info-circle"></i></span>'
+		prepend = pre_a+field["prepend"]+pre_b if "prepend" in field and len(field["prepend"]) > 0 else ""
 		disabled = 'disabled' if 'disabled' in field and field['disabled'] == "True" else ''
 		classes = field['class'] if 'class' in field and len(field['class']) > 0 else ''
 		if 'vocab' in field:
@@ -67,12 +67,13 @@ def get_form(json_form, from_dict=False):
 				classes = classes + " " + vocab
 		classes = classes+' searchWikidata' if 'searchWikidata' in field and field['searchWikidata'] == 'True' else classes
 		classes = classes+' searchGeonames' if 'searchGeonames' in field and field['searchGeonames'] == 'True' else classes
-		classes = classes+' url' if 'url' in field and field['url'] == 'True' else classes
+		classes = classes+' urlField' if 'url' in field and field['url'] == 'True' else classes
 		classes = classes+' disambiguate' if "disambiguate" in field and field["disambiguate"] == 'True' else classes
-		classes = classes+' multimedia '+ field['multimedia'] if field['type'] == 'Multimedia' else classes
-		classes = classes+' vocab' if field['type'] == 'Vocab' else classes
+		classes = classes+' multimediaField '+ field['multimedia'] if field['type'] == 'Multimedia' else classes
+		classes = classes+' vocabularyField' if field['type'] == 'Vocab' else classes
 		classes = classes+' oneVocableAccepted' if 'vocables' in field and field['vocables'] == 'oneVocable' else classes
 		classes = classes+' websitePreview' if field['type'] == 'WebsitePreview' else classes
+		classes = classes+' ' + field['lang'] if 'lang' in field else classes 
 		classes = classes+' ('+res_class+') '+disabled
 		autocomplete = field['cache_autocomplete'] if 'cache_autocomplete' in field and len(field['cache_autocomplete']) > 0 else ''
 
@@ -151,7 +152,7 @@ def get_form(json_form, from_dict=False):
 			id=myid,
 			pre = prepend,
 			class_= classes), )
- 
+
 		if field['type'] == 'Checkbox':
 			prepend_title = '<section class="checkbox_group_label label col-12">'+description+'</section>'
 			i = 0
@@ -172,7 +173,7 @@ def get_form(json_form, from_dict=False):
 				pre = '',
 				class_= classes+' checkbox_group following_checkbox',
 				checked=False), )
-	print(params)
+
 	myform = form.Form(*params)
 	return myform
 
