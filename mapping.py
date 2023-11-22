@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import datetime
-import time
 import json
 import urllib.parse
 import web
@@ -14,8 +13,10 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from pymantic import sparql
 import conf , queries
 import utils as u
-import re
-import csv
+
+#MAP
+from geopandas import *
+from geopy.geocoders import Nominatim
 
 u.reload_config()
 
@@ -52,8 +53,7 @@ def getValuesFromFields(fieldPrefix, recordData, fields=None, field_type=None):
 				label = field['values'][value] if value and value != 'None' and 'values' in field else None
 				if label:
 					results.add(( value, label ))
-			#Seb# Lasciare questa opzione solo se quando si preme la virgola si vuole evitare la creazione di <span> per gli URL
-			elif field_type: #Seb# Serve per gli URL: separa la stringa dove trova le virgole
+			elif field_type:
 				values = value.split(',')
 				for val in values:
 					results.add(( val.strip(), val.strip() ))
@@ -126,7 +126,7 @@ def inputToRDF(recordData, userID, stage, knowledge_extraction, graphToClear=Non
 			# the main entity has the same URI of the graph but the final /
 
 			if isinstance(value,str) and len(value) >= 1: # data properties
-				value = value.replace('\n','').replace('\r','')
+				#value = value.replace('\n','').replace('\r','')
 				if 'calendar' in field:
 					if field['calendar'] == 'Day':
 						wd.add((URIRef(base+graph_name), URIRef(field['property']), Literal(value, datatype=XSD.date)))
@@ -140,17 +140,30 @@ def inputToRDF(recordData, userID, stage, knowledge_extraction, graphToClear=Non
 					value = "http://"+value if not value.startswith("http") else value
 					wd.add(( URIRef(base+graph_name), URIRef(field['property']), URIRef(value)))
 				else:
-					wd.add(( URIRef(base+graph_name), URIRef(field['property']), Literal(value) ))
+					if 'lang' in field:
+						wd.add(( URIRef(base+graph_name), URIRef(field['property']), Literal(value, lang=field['lang'])))
+					
+					#EPIGRAFI DATA CUSTOMIZATION
+					#MAP-TRIAL
+					elif field['id'] == '1697705152738': #insert timestamp of the field "Collocation"
+						locator = Nominatim(user_agent="myGeocoder")
+						location = locator.geocode(value)
+						wd.add(( URIRef(base+graph_name), URIRef('https://w3id.org/arco/ontology/location/lat'), Literal(location.latitude)))
+						wd.add(( URIRef(base+graph_name), URIRef('https://w3id.org/arco/ontology/location/long'), Literal(location.longitude)))
+						wd.add(( URIRef(base+graph_name), URIRef(field['property']), Literal(value) ))
+
+					else: 
+						wd.add(( URIRef(base+graph_name), URIRef(field['property']), Literal(value)))
+
 			elif 'value' in field and field['value'] == 'URL':
 				for entity in value:
 					if entity[1] != "":
 						to_add = entity[1]
 						if not to_add.startswith("http"):
-							to_add = "http://" + to_add #Seb# senza questa riga otterrei <file:////app/records/wiki.it>
+							to_add = "http://" + to_add
 						wd.add(( URIRef(base+graph_name), URIRef(field['property']), URIRef(to_add) ))
 			else: # object properties
 				for entity in value:
-					#Seb# (PRIMA: getRightURIbase(entity[0])+entity[0]: ADESSO tutta la entityURI è restituita dentro getURIbase)
 					entityURI = getRightURIbase(entity[0]) # Wikidata or new entity 
 					wd.add(( URIRef(base+graph_name), URIRef(field['property']), URIRef(entityURI) ))
 					wd.add(( URIRef( entityURI ), RDFS.label, Literal(entity[1].lstrip().rstrip(), datatype="http://www.w3.org/2001/XMLSchema#string") ))
