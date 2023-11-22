@@ -68,7 +68,7 @@ $(document).ready(function() {
   areas.forEach(element => {  element.after(tags); nlpText(element.id); });
 
   // Suggest vocabularies links
-  $("input[type='text'][class*=' vocab ']").each(function() {
+  $("input[type='text'][class*=' vocabularyField ']").each(function() {
     const vocabs_link = [];
     const id = $(this).attr("id");
     var selected_vocabs = $("#"+id).attr("class").split(" ");
@@ -117,7 +117,7 @@ $(document).ready(function() {
 			searchLOV(searchID);
 		};
 
-    if ( $(this).hasClass('url') ) {
+    if ( $(this).hasClass('urlField') ) {
 			addURL(searchID);
 		};
 
@@ -125,11 +125,11 @@ $(document).ready(function() {
 			searchYear(searchID);
 		};
 
-    if ( $(this).hasClass('vocab') ) {
+    if ( $(this).hasClass('vocabularyField') ) {
 			searchVocab(searchID);
 		};
 
-    if ( $(this).hasClass('multimedia')) {
+    if ( $(this).hasClass('multimediaField')) {
       addMultimedia(searchID);
     }
 
@@ -152,9 +152,9 @@ $(document).ready(function() {
     if (mediaType == "image") {
       var modal = $("<div class='modal-previewMM'><span class='previewTitle'>This is a preview of your multimedia file:<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><img src='" + url + "'></div>");
     } else if (mediaType =="video") {
-      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>This is a preview of your multimedia file:<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><video controls name='media'><source src='" + url + "'></source></video></div>");
+      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>This is a preview of your multimedia file:<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><video controls name='media'><source src='" + url + "'></video></div>");
     } else if (mediaType == 'audio') {
-      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>This is a preview of your multimedia file:<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><audio controls><source src='" + url + "'></source></audio></div>");
+      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>This is a preview of your multimedia file:<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><audio controls><source src='" + url + "'></audio></div>");
     }
     element.after(modal);
     $('#showRight').hide();
@@ -275,6 +275,7 @@ $(document).ready(function() {
 
   // focus on click
   $('.resource_collapse').on('click', function (e) {
+      console.log("Here")
       $(e.currentTarget).parent('span').addClass('active');
   });
 
@@ -297,14 +298,17 @@ $(document).ready(function() {
 
   // trigger tabs in EXPLORE
   var triggerTabList = [].slice.call(document.querySelectorAll('#resource_classes_tab a'))
-    triggerTabList.forEach(function (triggerEl) {
+  console.log(triggerTabList)
+  triggerTabList.forEach(function (triggerEl) {
+    console.log(triggerEl)
       var tabTrigger = new bootstrap.Tab(triggerEl)
 
       triggerEl.addEventListener('click', function (event) {
         event.preventDefault()
         tabTrigger.show()
       })
-    });
+  });
+
   // show related resources in "term" page
   $(".showRes").on("click", {count: $(".showRes").data("count"), uri: $(".showRes").data("uri"), limit_query: $(".showRes").data("limit"), offset_query: $(".showRes").data("offset")}, searchResources);
 
@@ -321,6 +325,49 @@ $(document).ready(function() {
   detectInputWebPage("detect_web_page");
 
 });
+
+
+ //EPIGRAFI DATA CUSTOMIZATION
+window.addEventListener('DOMContentLoaded',function () {
+  var textareas = document.querySelectorAll(".articleSubtitle ~ p.textarea")
+  console.log(textareas)
+  for(var i=0; i<textareas.length; i++) {
+    textareas[i].innerText = textareas[i].innerText.replace(/\r\n/g, "<hr>")
+  }
+  //IMAGE VIEWER
+
+if (document.getElementById("immagineEpigrafe") != null) {
+  console.log("HERE")
+  const queryImages = 'SELECT DISTINCT ?imageLinks WHERE {?s <http://www.cidoc-crm.org/cidoc-crm/P138i_has_representation> ?o. ?o rdf:type <https://schema.org/ImageObject>; <http://www.cidoc-crm.org/cidoc-crm/P138i_has_representation> ?imageLinks}';
+  const encodedQueryImages = encodeURIComponent(queryImages); 
+  $.ajax({
+    url: '/blaze?q=' + encodedQueryImages,
+    type: 'GET',
+    success: function(result_json) {
+      console.log(result_json);
+      var data = result_json.results.bindings
+      console.log(data)
+      var div = document.getElementById("immagineEpigrafe")
+      if (data.length > 0) { 
+        for(var i=0;i<data.length;i++) { 
+          var figure = document.createElement("figure")
+          var img = document.createElement("img")
+          var link = data[i].imageLinks.value;
+          div.appendChild(figure)
+          figure.appendChild(img)
+          img.setAttribute("src", link)
+        }
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error(error);
+    }
+  });
+}
+
+})
+
+
 
 //////////////
 // BACKEND //
@@ -952,9 +999,9 @@ function searchVocab(searchterm) {
     if ($('#' + searchterm).val().length > 1) {
       $("#searchresult").hide();
       var requests = []; // prepare an array to collect all the requests to the selected vocabs' endpoints
-      var path_to_results = []; // prepare an array to access the results returned by the query
-      var vocabs = $('#' + searchterm).attr('class').split(/\s+/); // SELECTED vocabs are specified as classes of the input field
-      vocabs.forEach(function(item) {
+      var vocabs_array = []; // prepare an array to access the results returned by the query
+      var skos_vocabs = $('#' + searchterm).attr('class').split(/\s+/); // SELECTED vocabs are specified as classes of the input field
+      skos_vocabs.forEach(function(item) {
         if (list_vocabs.includes(item)) {
           if (skos_vocabs_json[item].type == "API") {
             // retrieve the parameters of the request to properly call the API
@@ -966,21 +1013,19 @@ function searchVocab(searchterm) {
             const request = $.getJSON(skos_vocabs_json[item].endpoint, json_parameters);
             requests.push(request);
             // specify how to access the results of the query
-            path_to_results.push(skos_vocabs_json[item].results);
+            vocabs_array.push(item);
           } else if (skos_vocabs_json[item].type == "SPARQL") {
             // the string 'QUERY-TERM' inside the query must be replaced with the input value; special charachters must be checked 
             var query = (skos_vocabs_json[item].query).replace("QUERY-TERM", ("^" + $('#' + searchterm).val())).replace("&gt;", ">").replace("&lt;", "<").replace(/&quot;/g, '"');
             var request_parameters = {
               type: 'GET',
-              url: skos_vocabs_json[item].endpoint+'?query=' + encodeURIComponent(query) + "&format=application%2Fsparql-results%2Bjson",
-              dataType: 'jsonp',
-              headers: { Accept: '*/*'}
+              url: '/sparqlanything?q=' + encodeURIComponent(query)
             }
             console.log(request_parameters);
             const request = $.ajax(request_parameters);
             requests.push(request);
             // specify how to access the results of the query
-            path_to_results.push(skos_vocabs_json[item].results);
+            vocabs_array.push(item);
           }
 
         }
@@ -992,7 +1037,7 @@ function searchVocab(searchterm) {
           console.log(results); // results = ALL the resulting objects of ALL the queries
           results.forEach(function(data, index) {
             console.log(data) // the resulting object of a query
-            var path = path_to_results[index];
+            var path = skos_vocabs_json[vocabs_array[index]].results ;
             var main_path = path.array.split(".");
             let result = data;
             main_path.forEach(key => {
@@ -1012,9 +1057,7 @@ function searchVocab(searchterm) {
               uri_path.forEach(key => {
                 uri = uri[key];
               });
-              // create a variable to store all the relevant information about each term
-              let vocabulary = uri.split("/")[uri.split("/").length - 2];
-              let add = uri + "," + label + "," + vocabulary;
+              let add = uri + "," + label + "," + vocabs_array[index];
               options.push(add);
             });
           });
@@ -1061,10 +1104,10 @@ function searchVocab(searchterm) {
             $('a[data-id="'+ uri +'"]').each(function () {
               $(this).bind('click', function (e) {
                 e.preventDefault();
-                if (!vocabs.includes("oneVocableAccepted") || $('#' + searchterm).nextAll("span").length == 0) {
+                if (!skos_vocabs.includes("oneVocableAccepted") || $('#' + searchterm).nextAll("span").length == 0) {
                   $('#' + searchterm).after("<span class='tag " + uri + "' data-input='" + searchterm + "' data-id='" + uri + "'>" + label+" - "+vocabulary_noun + "</span><input type='hidden' class='hiddenInput " + uri + "' name='" + searchterm + "-" + uri + "' value=\"" + uri + "," + label + " - " + vocabulary_noun + "\"/>");
                 }
-                else if (vocabs.includes("oneVocableAccepted") && $('#' + searchterm).nextAll("span").length > 0) {
+                else if (skos_vocabs.includes("oneVocableAccepted") && $('#' + searchterm).nextAll("span").length > 0) {
                   alert("Only one term is accepted!");
                 }
                 $("#searchresult").hide();
@@ -1085,9 +1128,9 @@ function searchVocab(searchterm) {
 function addMultimedia(searchterm) {
   $('#'+searchterm).keypress(function(e) {    
     let regexURL = /(http|https)?(:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z0-9]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
-    let imageFormats = ["jpg","jpeg","png","gif","bmp","svg","tiff","ico"];
-    let audioFormats = ["mp3","wav","flac","aac","ogg","wma","m4a","aiff","alac","ape","dts","mid","midi"];
-    let videoFormats = ["mp4","mov","avi","mkv","flv","wmv","webm","mpeg","mpg","3gp","rm","rmvb","vob","ts"];
+    let imageFormats = ["apng", "avif", "gif", "ico", "jpg", "jpeg", "jfif", "pjpeg", "pjp", "png", "svg", "webp"];
+    let audioFormats = ["mp3", "wav", "ogg"];
+    let videoFormats = ["mp4", "ogg", "webm"];
     if(e.which == 13 || e.which == 44) { // 44 code for , 
       e.preventDefault();
       var now = new Date().valueOf();
@@ -1569,10 +1612,10 @@ function add_field(field, res_type, backend_file=null) {
     <input type='text' id='label__"+temp_id+"' class='col-md-8' name='label__"+temp_id+"'/>\
   </section>";
 
-  var field_prepend = "<section class='row'>\
-    <label class='col-md-3'>DESCRIPTION <br><span class='comment'>a short explanation of the expected value</span></label>\
-    <textarea id='prepend__"+temp_id+"' class='col-md-8 align-self-start' name='prepend__"+temp_id+"'></textarea>\
-  </section>";
+  var field_prepend = '<section class="row">\
+    <label class="col-md-3">DESCRIPTION <br><span class="comment">a short explanation of the expected value</span></label>\
+    <textarea id="prepend__'+temp_id+'" class="col-md-8 align-self-start" name="prepend__'+temp_id+'"></textarea>\
+  </section>';
 
   var field_property = "<section class='row'>\
     <label class='col-md-3'>RDF PROPERTY <br><span class='comment'>start typing to get suggestions from LOV</span></label>\
@@ -1661,6 +1704,15 @@ function add_field(field, res_type, backend_file=null) {
     <p class='col-md-8'>A Knowledge Extractor will be available during the record's creation</p>\
   </section>";
 
+  var field_language = "<section class='row'>\
+    <label class='col-md-3'>LITERAL LANGUAGE</label>\
+    <select class='col-md-8 custom-select' id='lang__"+temp_id+"' name='lang__"+temp_id+"'>\
+      <option value='None'>Select</option>\
+      <option value='en'>English</option>\
+      <option value='it'>Italian</option>\
+    </select>\
+  </section>";
+
 
   var open_addons = "<section id='addons__"+temp_id+"'>";
   var close_addons = "</section>";
@@ -1668,12 +1720,18 @@ function add_field(field, res_type, backend_file=null) {
 
   contents += field_type + field_name + field_prepend + field_property + open_addons;
   if (field =='Textbox') { contents += field_value + field_placeholder; }
-  else if (field =='Textarea') { contents += field_placeholder; }
+  else if (field =='Textarea') { contents += field_language + field_placeholder; }
   else if (field =='Date') { contents += field_calendar + field_browse; }
-  else if (field =='Vocab') { contents += field_available_vocabularies + accepted_values_vocabularies + field_browse; }
-  else if (field =='Multimedia') { contents += field_multimedia; }
+  else if (field =='Vocab') { contents += field_available_vocabularies + accepted_values_vocabularies + field_placeholder + field_browse; }
+  else if (field =='Multimedia') { contents += field_multimedia + field_placeholder; }
   else if (field =='WebsitePreview') { contents += field_placeholder; }
-  else if (field =='KnowledgeExtractor') { contents = field_type + field_extractor + open_addons;}
+  else if (field =='KnowledgeExtractor') {
+    if ($("select option:selected[value='KnowledgeExtractor']").length > 0) {
+      alert("Max. 1 Knowledge Extraction field allowed");
+      return;
+    }
+    contents = field_type + field_extractor + open_addons;
+  }
   else {contents += field_values + field_browse; };
   contents += close_addons + up_down;
   $(".sortable").append("<section class='block_field'>"+contents+"</section>");
@@ -1697,6 +1755,8 @@ function add_disambiguate(temp_id, el) {
     <label class='col-md-11 col-sm-6' for='browse__"+temp_id+"'>use this value as a filter in <em>Explore</em> page</label>\
     <input type='checkbox' id='browse__"+temp_id+"' name='browse__"+temp_id+"'>\
   </section>";
+
+  
 
   if (el.value == 'Literal') {
       $("input[id*='browse__"+temp_id+"']").parent().remove();
@@ -1861,13 +1921,14 @@ function save_vocab(element) {
 
   // get the number of available vocabs (defined in template.html as a string)
   var i = available_skos_vocabularies.split("//").length+1;
+  available_skos_vocabularies += "//" + label;
   console.log(i);
-  // get the 'for' attribute of the label for the last vocab of the list (e.g.: "vocab6__1690443665556") 
+  // get the 'for' attribute of the label for the first vocab of the list (e.g.: "vocab6__1690443665556") 
   // to retrieve the id number of the field (e.g.: "1690443665556")
-  var temp_id_list = vocabs_section.find("label").eq((i-2)).attr('for').split("__");
+  var temp_id_list = vocabs_section.find("label").eq((1)).attr('for').split("__");
   var temp_id = temp_id_list[temp_id_list.length - 1];
   // get the index of the field in the template
-  var idx = parseInt(vocabs_section.find("label").eq((i-2)).attr('id'));
+  var idx = parseInt(vocabs_section.find("label").eq((1)).attr('id'));
   console.log(i, temp_id, idx);
 
   // generate a new checkbox to select the vocabulary and add it at the end of the list
@@ -1882,7 +1943,7 @@ function save_vocab(element) {
 
 function check_input_form(input_array) {
   // check the name of the newly imported vocabulary (available_skos_vocabularies is defined in template.html)
-  if (available_skos_vocabularies.toUpperCase().includes(input_array[0].toUpperCase())) {
+  if (available_skos_vocabularies.toUpperCase().split("//").includes(input_array[0].toUpperCase())) {
     alert('A vocabulary named '+input_array[0]+' already exists: choose a new label');
     return true;
   } 
@@ -1896,6 +1957,11 @@ function check_input_form(input_array) {
   }
 };
 
+
+
+////////////////////
+//// EXTRACTION ////
+////////////////////
 
 // extraction form
 function extraction_form(element) {
@@ -1924,6 +1990,9 @@ function extraction_form(element) {
 
 // create a form based on the selected option (API, SPARQL, static file)
 function add_extractor(element) {
+  if ($('.block_field.col-md-12').length > 0) {
+    $('.block_field.col-md-12 section').not(":first").remove();
+  }
   var id = extraction_number.toString(); // it will be used to create hidden inputs later
   extraction_number++; 
   var selected = $(element).find(":selected").val(); // selected option (API, SPARQL, or static file)
@@ -1963,10 +2032,14 @@ function add_extractor(element) {
   }
   var buttons = "<section class='row extractor_1'>\
   <input id='"+selected+"_back1' class='btn btn-dark extractor_1' style='margin-left:20px' value='Back' onClick='prev_extractor(\"extractor_1\", \"form_row\", true)'>\
-  <input id='"+selected+"_next1' class='btn btn-dark extractor_1' style='margin-left:20px' value='Next' onClick='next_"+selected+"_extractor(this, "+id+")'>\
+  <input id='"+selected+"_next1' class='btn btn-dark extractor_1' style='margin-left:20px' value='Next' onClick='next_extractor(this, "+id+", \""+selected+"\")'>\
   </section>"
   // add the new form to the webpage
   $(element).closest('.row').after(form+buttons);
+
+  $('.extraction_documentation').show();
+  $('.extraction_documentation section').hide();
+  $('.extraction_documentation_'+selected).show();
 }
 
 function prev_extractor(to_hide, to_show, remove=false, id=null) {
@@ -1994,6 +2067,7 @@ function prev_extractor(to_hide, to_show, remove=false, id=null) {
     button.show();
     $('.homeheading').eq(0).attr('class', 'homeheading col-md-8 col-lg-8 col-sm-8');
     $('.homeheading.col-md-4.col-sm-4.col-lg-4').show();
+    $('.extraction_documentation').hide();
   }  
 }
 
@@ -2047,6 +2121,7 @@ function change_results_page(page_n, length) {
 }
 
 function call_sparqlanything(encoded, id, element_id, type) {
+  console.log(encoded)
   $.ajax({
     type: 'GET',
     url: '/sparqlanything?q=' + encoded,
@@ -2063,7 +2138,6 @@ function call_sparqlanything(encoded, id, element_id, type) {
         tr.append(th);
       }
       result_table.append(tr);
-      
 
       for (let res_idx=0; res_idx<result_json.results.bindings.length; res_idx++){
         var result = result_json.results.bindings[res_idx];
@@ -2092,35 +2166,59 @@ function call_sparqlanything(encoded, id, element_id, type) {
       $('.block_field').append(buttons);
       
     },
-    error: function(xhr, status, error) {
-        console.error(error);
+    error: function() {
+      alert(("error: check your parameters"))
     }
   });
 }
-//////////////////////
-//////// API  ////////
-//////////////////////
 
-// api extractor
-function next_api_extractor(element, id) {
-  // retrieve values from the input form and  create hidden inputs to store them
+function string_to_json(input_string) {
+  const rows = input_string.split('\n');
+  const json_output = {};
+  
+  for (const row of rows) {
+    const [key, val] = row.split(',');
+    const k = key.trim();
+    const v = val.trim();
+    json_output[k] = v;
+  }
+  
+  return json_output
+}
+
+function next_extractor(element, id, type) {
   if ($('#recordForm').length >0) {
     var element_id = '#recordForm';
   } else {
     var element_id = '#modifyForm';
   }
-  var url = $('#ApiUrl').val(), query = $('#ApiQuery').val().replace(/"/g, '\\"'), results = $('#ApiResults').val();
 
-  $(element_id).prepend("<input class='extraction_type' type='hidden' name='"+id+"-TYPE' value='api'/>"); 
-  $(element_id).prepend("<input type='hidden' name='"+id+"-URL' value=\""+url+"\"/>");
-  $(element_id).prepend("<input type='hidden' name='"+id+"-QUERY' value='"+query+"'/>");
-  $(element_id).prepend("<input type='hidden' name='"+id+"-OUTPUT' value=\""+results+"\"/>");
+  const object_item = {};
+  if (type == "api") {
+    object_item["-TYPE"] = "api";
+    object_item["-URL"] = $('#ApiUrl').val();
+    object_item["-QUERY"] = $('#ApiQuery').val().replace(/"/g, '\\"');
+    object_item["-RESULTS"] = $('#ApiResults').val();
+  } else if (type == "sparql") {
+    object_item["-TYPE"] = "sparql";
+    object_item["-URL"] = $('#SparqlUrl').val();
+    object_item["-QUERY"] = $('#SparqlQuery').val();
+  } else if (type == "file") {
+    object_item["-TYPE"] = "file";
+    object_item["-URL"] = $('#FileUrl').val();
+    object_item["-QUERY"] = $('#FileQuery').val();
+  }
+  console.log(object_item, type)
+  Object.entries(object_item).forEach(([key, value]) => {
+    $(element_id).prepend("<input type='hidden' name='"+id+key+"' value='"+value+"'/>");
+  });
 
-  var json_query = string_to_json(query);
-  $.getJSON(url, json_query,
+  if (type == "api") {
+    var json_query = string_to_json(object_item["-QUERY"]);
+    $.getJSON(object_item["-URL"], json_query,
 	    function(data) {
-        console.log(data);
-        var json_results = string_to_json(results)
+
+        var json_results = string_to_json(object_item["-RESULTS"])
         var main_path = json_results.array.split(".");
         let results_array = data;
         main_path.forEach(key => {
@@ -2151,8 +2249,6 @@ function next_api_extractor(element, id) {
           bindings.push({"uri": {'value':uri, 'type':'uri'}, 'label': {'value':label, 'type':'literal'}})
         });
         const json_output = {'results': {'bindings': bindings}};
-        $(element_id).prepend("<input type='hidden' name='"+id+"-RESULTS' value='"+JSON.stringify(json_output)+"' id='query_result_"+id+"'>");
-
         result_sec.append(result_table);
 
 
@@ -2163,74 +2259,22 @@ function next_api_extractor(element, id) {
         <input id='api_next2' class='btn btn-dark extractor_2' style='margin-left:20px' value='Import' onClick='prev_extractor(\"extractor_2\", \"form_row\", true,\""+ id+"\")'>\
         </section>";
         $('.block_field').append(handling_list);
+      }).error(function(jqXHR, textStatus, errorThrown) {
+         alert(("error: " + jqXHR.responseText))
       })
-}
 
-function string_to_json(input_string) {
-  const rows = input_string.split('\n');
-  const json_output = {};
-  
-  for (const row of rows) {
-    const [key, val] = row.split(',');
-    
-    const k = key.trim();
-    const v = val.trim();
-    json_output[k] = v;
+  } else if (type == "file") {
+
+    if (object_item["-QUERY"].includes("<x-sparql-anything:"+object_item["-URL"]+">") && object_item["-QUERY"].includes("SERVICE")) {
+      call_sparqlanything(encodeURIComponent(object_item["-QUERY"]), id, element_id, type);
+    } else {
+      call_sparqlanything(encodeURIComponent(object_item["-QUERY"].replace("{", "{ SERVICE <x-sparql-anything:"+object_item["-URL"]+"> {").replace("}", "}}")), id, element_id, type);
+    }
+  } else if (type == "sparql") {
+    if (object_item["-QUERY"].includes("SERVICE")) {
+      call_sparqlanything(encodeURIComponent(object_item["-QUERY"]), id, element_id, type);
+    } else {
+      call_sparqlanything(encodeURIComponent(object_item["-QUERY"].replace("{", "{ SERVICE <"+object_item["-URL"]+"> {").replace("}", "}}")), id, element_id, type);
+    }
   }
-  
-  return json_output
-}
-
-/////////////////////////
-//////// SPARQL  ////////
-/////////////////////////
-
-// sparql extractor
-function next_sparql_extractor(element, id) {
-  // retrieve values from the input form and  create hidden inputs to store them
-  if ($('#recordForm').length >0) {
-    var element_id = '#recordForm';
-  } else {
-    var element_id = '#modifyForm';
-  }
-  var url = $('#SparqlUrl').val(), query = $('#SparqlQuery').val();
-  $(element_id).prepend("<input class='extraction_type' type='hidden' name='"+id+"-TYPE' value='sparql'/>"); 
-  $(element_id).prepend("<input type='hidden' name='"+id+"-URL' value=\""+url+"\"/>");
-  $(element_id).prepend("<input type='hidden' name='"+id+"-QUERY' value='"+query+"'/>");
-  var sparqlanything_query = query.replace("{", "{ SERVICE <"+url+"> {").replace("}", "} }");
-
-
-  var encoded = encodeURIComponent(sparqlanything_query)
-  const regex = /\?[a-zA-Z_][a-zA-Z0-9_]*/g;
-  var labels = query.match(regex);
-  var uniquelabels = labels.filter((value, index, self) => {
-    return self.indexOf(value) === index;
-  });
-
-  // call CLEF api (SparqlAnything)
-  call_sparqlanything(encoded, id, element_id, "sparql")
-}
-
-///////////////////////
-//////// FILE  ////////
-///////////////////////
-
-function next_file_extractor(element, id) {
-  var file = $('#FileUrl').val();
-  var query = $('#FileQuery').val();
-  if ($('#recordForm').length >0) {
-    var element_id = '#recordForm';
-  } else {
-    var element_id = '#modifyForm';
-  }
-  $(element_id).prepend("<input class='extraction_type' type='hidden' name='"+id+"-TYPE' value='file'/>");
-  $(element_id).prepend("<input type='hidden' name='"+id+"-FILE' value='"+file+"'/>");
-  $(element_id).prepend("<input type='hidden' name='"+id+"-QUERY' value='"+query+"'/>");
-  
-  if (query.includes("<x-sparql-anything:"+file+">") && query.includes("SERVICE")) {
-    var encoded = encodeURIComponent(query)
-  } else {
-    var encoded = encodeURIComponent(query.replace("{", "{ SERVICE <x-sparql-anything:"+file+"> {").replace("}", "}}"))
-  }
-  call_sparqlanything(encoded, id, element_id, "file");
 }
