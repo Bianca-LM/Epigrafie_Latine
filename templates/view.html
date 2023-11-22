@@ -1,4 +1,4 @@
-$def with (user, graphdata, graphID, title, stage, base,properties,is_git_auth,project,knowledge_extractor)
+$def with (user, entity, graphdata, graphID, title, stage, base,properties,is_git_auth,project,knowledge_extractor)
 
 $var user = user
 $var is_git_auth = is_git_auth
@@ -9,17 +9,32 @@ $var project = project
 			<h2 class="articleTitle col-md-12" property="name">$title
 			$if 'modified' in stage:
 				<span>draft</span>
-			</h2>
+			</h2>	
+			<!--EPIGRAFI DATA CUSTOMIZATION-->
+			$if "Human-Made" in entity: 
+				<section id="immagineEpigrafe" class="info-item  col-md-5 col-sm-12">
+				</section>			
 			$for field,value in graphdata.items():
 				$ width_class = "col-md-10 col-sm-12" if properties[field][1]=="WebsitePreview" else "col-md-5 col-sm-12" if (value and len(value[0]) <= 100) else 'col-md-12'
 				<section class="info-item $width_class">
 						$if isinstance(value[0],str):
 							<h4 class="articleSubtitle">$field </h4>
+							<!--EPIGRAFI DATA CUSTOMIZATION-->
 							$if properties[field][1]=="Date" and (value[0].startswith("-") or len(value[0]) == 4):
 								$ value = value[0].replace("-", "") + " B.C." if value[0].startswith("-") else value[0].lstrip('0')
 							$else:
-								$ value = value[0]
-							<p property="$properties[field][0]">$value</p>
+								$if len(value) > 1:
+									$for v in value:
+										$if "//it" in v and field == "Traduzione italiana":
+											$ value = v.replace("//it", "")
+											$break
+										$if "//en" in v and field == "Traduzione inglese":
+											$ value = v.replace("//en", "")
+											$if "\n" in value:
+											$break
+								$else: 
+									$ value = value[0]
+							<p class="$properties[field][1].lower()" property="$properties[field][0]">$value</p>
 						$else:
 							$if len(value[0][1]) > 0:
 								<h4 class="articleSubtitle">$field </h4>
@@ -103,6 +118,7 @@ $var project = project
 									</a>
 								</p>
 				</section>
+
 	</section>
 	<section class="col-md-4 sideBoxes">
 		<section class="biblio">
