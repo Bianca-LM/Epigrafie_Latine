@@ -63,7 +63,8 @@ urls = (
 	prefix + '/(sparql)','sparql',
 	prefix + '/savetheweb-(.+)','Savetheweb',
 	prefix + '/nlp','Nlp',
-	prefix + '/sparqlanything', 'Sparqlanything'
+	prefix + '/sparqlanything', 'Sparqlanything',
+	prefix + '/blaze', 'Blaze' #MAP
 )
 
 app = web.application(urls, globals())
@@ -940,13 +941,13 @@ class View(object):
 		base = conf.base
 		record = base+name
 		res_class = queries.getClass(conf.base+name)
+		print("BOH----------", res_class) #THE ENTITY FOR EPIGRAFI DATA CUSTOMIZATION
 		data, stage, title, properties, data_labels = None, None, None, None, {}
 		extractor = queries.retrieve_extractions(conf.base+name) if u.has_extractor(name, modify=True) else False
 		try:
 			res_template = u.get_template_from_class(res_class)
 			data = dict(queries.getData(record+'/',res_template))
 			stage = data['stage'][0] if 'stage' in data else 'draft'
-
 			with open(res_template) as tpl_form:
 				fields = json.load(tpl_form)
 			try:
@@ -961,9 +962,7 @@ class View(object):
 		except Exception as e:
 			pass
 
-
-
-		return render.view(user=session['username'], graphdata=data_labels,
+		return render.view(user=session['username'], entity=res_class, graphdata=data_labels,
 						graphID=name, title=title, stage=stage, base=base,properties=properties,
 						is_git_auth=is_git_auth,project=conf.myProject,knowledge_extractor=extractor)
 
@@ -1208,6 +1207,32 @@ class Sparqlanything(object):
 
 		# Retrieve all results so that user can verify them
 		print("sparql.anything query: ", query_str_decoded)
+		sparql.setQuery(query_str_decoded)
+		sparql.setReturnFormat(JSON)
+		results = sparql.query().convert()
+		print("results: \n",results, "\n ---------------------- \n")
+		return json.dumps(results)
+	
+#MAP
+class Blaze(object):
+	def GET(self):
+		web.header('Content-Type', 'application/json')
+		web.header('Access-Control-Allow-Origin', '*')
+		web.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+
+		query_string = web.input()
+		print(query_string)
+
+		
+		try:
+			query_str_decoded = query_string.q.decode('utf-8').strip()
+		except Exception as e:
+			query_str_decoded = query_string.q.strip()
+		
+		sparql = SPARQLWrapper(conf.myEndpoint)
+
+		# Retrieve all results so that user can verify them
+		print("sparql.blaze query: ", query_str_decoded)
 		sparql.setQuery(query_str_decoded)
 		sparql.setReturnFormat(JSON)
 		results = sparql.query().convert()
