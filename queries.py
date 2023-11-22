@@ -238,17 +238,18 @@ def getData(graph,res_template):
 	for result in results["results"]["bindings"]:
 		result.pop('subject',None)
 		result.pop('graph_title',None)
+		print(result)
 		for k,v in result.items():
 			if '_label' not in k and v['type'] == 'literal': # string values
 				if v['value'] not in data[k]: # unique values
-					data[k].append(v['value'])
+					data[k].append(v['value']+"//"+v['xml:lang']) if 'xml:lang' in v else data[k].append(v['value'])
 			elif v['type'] == 'uri': # uri values
 
 				if k+'_label' in result:
 					if conf.base in v['value'] or 'wikidata' in v['value'] or 'geonames' in v['value']:
 						uri = v['value'].rsplit('/', 1)[-1]
 					elif 'viaf' in v['value']:
-						uri = "viaf"+v['value'].rsplit('/', 1)[-1] #Seb# Keep "viaf" at the beginning: serve in mapping.py per getRightURIbase
+						uri = "viaf"+v['value'].rsplit('/', 1)[-1] # Keep "viaf" at the beginning: needed in mapping.py (getRightURIbase)
 					else:
 						uri = v['value']
 					label = [value['value'] for key,value in result.items() if key == k+'_label'][0]
