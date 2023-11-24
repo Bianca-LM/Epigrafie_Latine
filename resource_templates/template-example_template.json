@@ -2,12 +2,12 @@
  {
   "id": "1644228165691",
   "value": "Literal",
-  "placeholder": "My beautiful title",
+  "placeholder": "Il mio bellissimo titolo",
   "type": "Textbox",
-  "label": "title",
+  "label": "Titolo",
   "property": "http://schema.org/title",
   "disambiguate": "True",
-  "prepend": "A textbox with a literal value, flagged as main title of the record (mandatory)",
+  "prepend": "Un campo di testo con un valore letterale, contrassegnato come titolo principale della scheda (obbligatorio)",
   "browse": "False",
   "searchWikidata": "False",
   "searchGeonames": "False",
@@ -17,9 +17,9 @@
  },
  {
   "id": "1644228232251",
-  "prepend": "A text area. After filling in the field, press return to extract named entities (people names, places, organisations). ",
-  "label": "Description",
-  "placeholder": "I was born in Tokyo. When I was 13 I moved to Rome.",
+  "prepend": "Un'area di testo. Dopo aver riempito il campo, premi invio per estrarre le entità (nomi di persone, luoghi, organizzazioni). ",
+  "label": "Descrizione",
+  "placeholder": "Sono nato a Tokyo. Quando avevo 13 anni mi sono trasferito a Roma.",
   "type": "Textarea",
   "property": "http://schema.org/description",
   "disambiguate": "False",
@@ -29,19 +29,20 @@
   "searchGeonames": "False",
   "disabled": "False",
   "class": "col-md-11",
-  "cache_autocomplete": "off"
+  "cache_autocomplete": "off",
+  "lang": "en"
  },
  {
   "id": "1644228345066",
   "browse": "True",
   "property": "http://schema.org/gender",
   "type": "Dropdown",
-  "prepend": "A dropdown. Select only one value from the controlled vocabulary of terms. Show this field in the Explore page",
-  "label": "Gender",
+  "prepend": "Opzioni a tendina. Seleziona un valore dal vocabolario controllato di termini. Mostra questo campo nella pagina Esplora",
+  "label": "Sesso",
   "values": {
-   "http://example.org/female": "female",
-   "http://example.org/male": "male",
-   "http://example.org/other": "other"
+   "http://example.org/female": "donna",
+   "http://example.org/male": "uomo",
+   "http://example.org/other": "altro"
   },
   "value": "URI",
   "disambiguate": "False",
@@ -53,12 +54,12 @@
  },
  {
   "id": "1644228758707",
-  "label": "Affiliation",
-  "prepend": "A checkbox. Select multiple one values from the controlled vocabulary of terms. Show this field in the Explore page",
+  "label": "Affiliazione",
+  "prepend": "Caselle di spunta. Seleziona uno o più valori dal vocabolario controllato di termini. Mostra questo campo nella pagina Esplora",
   "browse": "True",
   "property": "http://schema.org/memberOf",
   "values": {
-   "http://example.org/unibo": "University of Bologna",
+   "http://example.org/unibo": "Università di Bologna",
    "http://example.org/dharc": "Digital Humanities Research Centre",
    "http://example.org/polifonia": "Polifonia H2020"
   },
@@ -73,10 +74,10 @@
  },
  {
   "id": "1644229044498",
-  "label": "Friend of",
+  "label": "Amico di",
   "property": "http://schema.org/knows",
-  "placeholder": "e.g. Federico Fellini",
-  "prepend": "A text box with an entity value. Searches in Wikidata for matches while you type, press return to accept suggestions. You can search and select multiple values.",
+  "placeholder": "es. Federico Fellini",
+  "prepend": "Un campo di testo con un'entità come valore. Cerca corrispondenze su Wikidata mentre digiti. Premi invio per accettare i suggerimenti. Puoi cercare e selezionare più valori.",
   "type": "Textbox",
   "value": "URI",
   "disambiguate": "False",
@@ -89,10 +90,10 @@
  },
  {
   "id": "1644229155148",
-  "prepend": "A text box with a location value. Searches in Geonames for matches while you type, press return to accept suggestions. You can search and select multiple values.",
+  "prepend": "Un campo di testo con un luogo come valore. Cerca corrispondenze su Geonames mentre digiti. Premi invio per accettare i suggerimenti. Puoi cercare e selezionare  più di un valore.",
   "type": "Textbox",
   "placeholder": "Bologna",
-  "label": "Birth place",
+  "label": "Luogo di nascita",
   "property": "http://schema.org/birthPlace",
   "value": "Place",
   "disambiguate": "False",
