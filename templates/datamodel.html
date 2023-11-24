@@ -9,7 +9,7 @@ $var project = project
 			$ res_class = r["res_class_label"]
 			$ title = res_class[1] if res_class[1] != res_class[0] else 'no title'
 			<h2 class="articleTitle">$r["res_name"]</h2>
-			<h3 class="articleSubtitle">CLASS: <span>$:title</span></h3>
+			<h3 class="articleSubtitle">CLASSE: <span>$:title</span></h3>
 			<p class="small"><a target='_blank' href="$res_class[0]">$res_class[0]</a></p>
 			$for prop_label in r["props_labels"]:
 				<section class="info-item">
