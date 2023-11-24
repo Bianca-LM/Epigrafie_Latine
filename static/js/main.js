@@ -25,16 +25,16 @@ $(document).ready(function() {
     if (sel !== undefined) {
       // when selecting the template
       if (sel && sel.value == 'None') {
-        Swal.fire({ title: 'choose a template please'});
+        Swal.fire({ title: 'Scegli un modello per favore'});
         setTimeout(function() { document.getElementById('recordForm').submit();}, 500);
       } else {
-        Swal.fire({ title: 'Saved!'});
+        Swal.fire({ title: 'Salvato!'});
         setTimeout(function() { document.getElementById('recordForm').submit();}, 500);
       }
     }
     else {
       // when saving the record
-      Swal.fire({ title: 'Saved!'});
+      Swal.fire({ title: 'Salvato!'});
       setTimeout(function() { document.getElementById('recordForm').submit();}, 500);
     };
   });
@@ -88,7 +88,7 @@ $(document).ready(function() {
     } else {
       div.insertBefore($(this));
     }
-    div.append("<span style='font-weight:100'>Check available vocabularies:</span></br>");
+    div.append("<span style='font-weight:100'>Controlla i vocabolari disponibili:</span></br>");
     
     vocabs_link.forEach(function(link) {
       const name = link.split(",")[0].toUpperCase();
@@ -150,11 +150,11 @@ $(document).ready(function() {
     console.log(mediaType)
     // create a modal preview
     if (mediaType == "image") {
-      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>This is a preview of your multimedia file:<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><img src='" + url + "'></div>");
+      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>Questa è un'anteprima del tuo file multimediale:<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><img src='" + url + "'></div>");
     } else if (mediaType =="video") {
-      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>This is a preview of your multimedia file:<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><video controls name='media'><source src='" + url + "'></video></div>");
+      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>Questa è un'anteprima del tuo file multimediale::<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><video controls name='media'><source src='" + url + "'></video></div>");
     } else if (mediaType == 'audio') {
-      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>This is a preview of your multimedia file:<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><audio controls><source src='" + url + "'></audio></div>");
+      var modal = $("<div class='modal-previewMM'><span class='previewTitle'>Questa è un'anteprima del tuo file multimediale::<br><a href='"+url+"'>"+url+"</a></span><span class='closePreview'></span><audio controls><source src='" + url + "'></audio></div>");
     }
     element.after(modal);
     $('#showRight').hide();
@@ -218,12 +218,12 @@ $(document).ready(function() {
 
 	// prevent POST when deleting records
 	$('.delete').click(function(e) {
-		var result = confirm("Are you sure you want to delete this record?");
+		var result = confirm("Vuoi davvero eliminare questa scheda?");
 		if (result) { } else { e.preventDefault(); return false; };
 	});
   // prevent POST when deleting templates
   $('.delete_template').click(function(e) {
-		var result = confirm("Are you sure you want to delete the template? You will not be able to create new records with this template. Existing records using this template will not be deleted, but you will not be able to modify them.");
+		var result = confirm("Vuoi davvero eliminare questo modello? Non avrai più la possibilità di creare nuove schede con questo modello. Le schede già create utilizzando questo modello non verranno eliminate, ma non avrai la possibilità di modificarle.");
 		if (result) { } else { e.preventDefault(); return false; };
 	});
 
@@ -378,7 +378,7 @@ function validateTemplateClass(form_id) {
   var class_name = document.forms[form_id]["class_name"].value;
   var class_uri = document.forms[form_id]["class_uri"].value;
   if (class_name == "" || class_uri == "") {
-    alert("Name and URI must be filled out");
+    alert("Nome e URI devono essere compilati");
 
     return false;
   } else {
@@ -488,7 +488,7 @@ function searchGeonames(searchterm) {
 
   	      // catalogue lookup in case nothing is found
   	      if(!data.geonames.length){
-  	      	$("#searchresult").append("<div class='wditem noresults'>No matches in Geonames... looking in the catalogue</div>");
+  	      	$("#searchresult").append("<div class='wditem noresults'>Nessuna corrispondenza su Geonames... sto cercando nel catalogo</div>");
   	      	// remove messages after 3 seconds
       			setTimeout(function(){
       			  if ($('.noresults').length > 0) {
@@ -669,7 +669,7 @@ function searchWD(searchterm) {
                 });
               }
               else if ($('#' + searchterm).val().length > 0) {
-                $("#searchresult").append("<div class='wditem noresults'>No matches in Wikidata and VIAF</div>");
+                $("#searchresult").append("<div class='wditem noresults'>Nessuna corrispondenza su Wikidata e VIAF</div>");
                 // remove messages after 3 seconds
                 setTimeout(function () {
                   if ($('.noresults').length > 0) {
@@ -984,7 +984,7 @@ function searchYear(searchYear) {
     } else {
       var newlength = $('#'+searchYear).val().length - 1;
       $('#'+searchYear).val($('#'+searchYear).val().substring(0, newlength));
-      alert("Only digit accepted")
+      alert("Si possono inserire solo numeri")
     }
   })
 }
@@ -1155,11 +1155,11 @@ function addMultimedia(searchterm) {
           $('.multimediaTag.'+newID).prepend("<span class='MMtag file_video' data-id='"+encodeURIComponent($('#'+searchterm).val())+"'><i class='fas fa-eye'></i></span>");
         } 
         else {
-          alert('Invalid File Format');
+          alert('Formato file non valido');
         }
       }
       else if ($('#'+searchterm).val().length > 0 && !regexURL.test($('#'+searchterm).val()) ) {
-        alert('Insert a valid URL');
+        alert('Inserisci un URL valido');
       }
       $('#'+searchterm).val('');
         //colorForm();
@@ -1244,7 +1244,7 @@ function checkPriorRecords(elem) {
   			  if (!returnedJson.results.bindings.length) {
           //$("#lookup").append("<h3>We found the following resources that are similar to the one you mention.</h3>")
     			} else {
-            $("#lookup").append("<div>We already have some resources that match with yours. If this is the case, consider suggesting a different resource!</div>")
+            $("#lookup").append("<div>Abbiamo già alcune risorse che corrispondono alla tua. Se è questo il caso, prova a proporre una risorsa diversa!</div>")
             for (i = 0; i < returnedJson.results.bindings.length; i++) {
 
                 // exclude named graphs from results
@@ -1300,11 +1300,11 @@ function detectInputWebPage(input_elem) {
               $(this).parent().append(tooltip_saved);
               $(".savetheweb").popover({
                 html: true,
-                title : "<h4>Need to save a source for the future?</h4>",
-                content: "<p>If you have a web page that is important to you, \
-                we can save it using the \
+                title : "<h4>Hai bisogno di salvare una fonte per il futuro?</h4>",
+                content: "<p>Se hai una pagina web che per te è importante, \
+                possiamo salvarla utilizzando la \
                 <a target='_blank' href='https://archive.org/web/'>Wayback Machine</a></p>\
-                <p>Shall we?</p>\
+                <p>Dobbiamo?</p>\
                 <button onclick=saveTheWeb('"+input_val+"') class='btn btn-dark'>yes</button> \
                 <button onclick=destroyPopover() class='btn btn-dark'>Maybe later</button>\
                 <p></p>",
@@ -1333,8 +1333,8 @@ function saveTheWeb(input_url) {
   $(".savetheweb").popover('hide');
   $(".savedtheweb").popover({
     html: true,
-    title : "<span onclick=destroyPopover('savedtheweb')>x</span><h4>Thank you!</h4>",
-    content: "<p>We sent a request to the Wayback machine.</p>",
+    title : "<span onclick=destroyPopover('savedtheweb')>x</span><h4>Grazie!</h4>",
+    content: "<p>Abbiamo mandato la richiesta alla Wayback Machine.</p>",
     placement: "bottom",
   }).popover('show');
 
@@ -1373,7 +1373,7 @@ function searchResources(event) {
         headers: { Accept: 'application/sparql-results+json; charset=utf-8'},
         success: function(returnedJson) {
           if (!returnedJson.results.bindings.length) {
-            $(".relatedResources").append("<div class='wditem noresults'>No more resources</div>");
+            $(".relatedResources").append("<div class='wditem noresults'>Nessun altra risorsa</div>");
           } else {
             for (i = 0; i < returnedJson.results.bindings.length; i++) {
               var myUrl = returnedJson.results.bindings[i].o.value;
@@ -1592,54 +1592,54 @@ function add_field(field, res_type, backend_file=null) {
   var temp_id = Date.now().toString(); // to be replaced with label id before submitting
 
   var field_type = "<section class='row'>\
-    <label class='col-md-3'>FIELD TYPE</label>\
+    <label class='col-md-3'>TIPO DI CAMPO</label>\
     <select onchange='change_fields(this)' class='col-md-8 ("+res_type+") custom-select' id='type__"+temp_id+"' name='type__"+temp_id+"'>\
-      <option value='None'>Select</option>\
-      <option value='Textbox' "+is_selected('Textbox',field)+">Textbox (text values or name of entities)</option>\
-      <option value='Textarea' "+is_selected('Textarea',field)+">Textarea (long textual descriptions)</option>\
-      <option value='Dropdown' "+is_selected('Dropdown',field)+">Dropdown (select one value from a list)</option>\
-      <option value='Checkbox' "+is_selected('Checkbox',field)+">Checkbox (multiple choice)</option>\
-      <option value='Date' "+is_selected('Date',field)+">Date (select a day/month/year)</option>\
-      <option value='Multimedia' "+is_selected('Multimedia',field)+">Multimedia (audio, image, video)</option>\
-      <option value='Vocab' "+is_selected('Vocab',field)+">Vocabulary (SKOS)</option>\
-      <option value='WebsitePreview' "+is_selected('WebsitePreview',field)+">Website Preview (iframe)</option>\
+      <option value='None'>Seleziona</option>\
+      <option value='Textbox' "+is_selected('Textbox',field)+">Campo di testo (valori testuali o nomi di entità)</option>\
+      <option value='Textarea' "+is_selected('Textarea',field)+">Area di testo (lunghe descrizioni testuali)</option>\
+      <option value='Dropdown' "+is_selected('Dropdown',field)+">Opzioni a tendina (seleziona un valore da una lista)</option>\
+      <option value='Checkbox' "+is_selected('Checkbox',field)+">Caselle di spunta (scelta multipla)</option>\
+      <option value='Date' "+is_selected('Date',field)+">Date (seleziona un giorno/mese/anno/periodo)</option>\
+      <option value='Multimedia' "+is_selected('Multimedia',field)+">Multimedia (audio, immagine, video)</option>\
+      <option value='Vocab' "+is_selected('Vocab',field)+">Vocabolari (SKOS)</option>\
+      <option value='WebsitePreview' "+is_selected('WebsitePreview',field)+">Anteprima di sito (iframe)</option>\
       <option value='KnowledgeExtractor' "+is_selected('KnowledgeExtractor',field)+">Knowledge Extraction</option>\
     </select>\
   </section>";
 
   var field_name = "<section class='row'>\
-    <label class='col-md-3'>DISPLAY NAME</label>\
+    <label class='col-md-3'>NOME DA MOSTRARE</label>\
     <input type='text' id='label__"+temp_id+"' class='col-md-8' name='label__"+temp_id+"'/>\
   </section>";
 
   var field_prepend = '<section class="row">\
-    <label class="col-md-3">DESCRIPTION <br><span class="comment">a short explanation of the expected value</span></label>\
+    <label class="col-md-3">DESCRIZIONE <br><span class="comment"> una breve spiegazione del valore atteso</span></label>\
     <textarea id="prepend__'+temp_id+'" class="col-md-8 align-self-start" name="prepend__'+temp_id+'"></textarea>\
   </section>';
 
   var field_property = "<section class='row'>\
-    <label class='col-md-3'>RDF PROPERTY <br><span class='comment'>start typing to get suggestions from LOV</span></label>\
+    <label class='col-md-3'>PROPRIETÀ RDF<br><span class='comment'> inizia a digitare per ricevere suggerimenti da LOV</span></label>\
     <input type='text' id='property__"+temp_id+"' class='col-md-8 searchLOV' name='property__"+temp_id+"'/>\
   <div id='searchresult'></div></section> ";
 
   var field_value = "<section class='row'>\
-    <label class='col-md-3'>VALUE TYPE</label>\
+    <label class='col-md-3'>TIPO DI VALORE</label>\
     <select class='col-md-8 ("+res_type+") custom-select' id='value__"+temp_id+"' name='value__"+temp_id+"' onchange='add_disambiguate("+temp_id+",this)'>\
-      <option value='None'>Select</option>\
-      <option value='Literal'>Free text (Literal)</option>\
-      <option value='URI'>Entity (URI from Wikidata, VIAF, or catalogue)</option>\
-      <option value='Place'>Location (from geonames)</option>\
+      <option value='None'>Seleziona</option>\
+      <option value='Literal'>Testo libero (Literal)</option>\
+      <option value='URI'>Entità (URI da Wikidata, VIAF, o catalogo)</option>\
+      <option value='Place'>Collocazione (da geonames)</option>\
       <option value='URL'>URL</option>\
     </select>\
   </section>";
 
   var field_calendar = "<section class='row'>\
-    <label class='col-md-3'>CALENDAR TYPE</label>\
+    <label class='col-md-3'>TIPO DI CALENDARIO</label>\
     <select class='col-md-8 ("+res_type+") custom-select' id='calendar__"+temp_id+"' name='calendar__"+temp_id+"'>\
-      <option value='None'>Select</option>\
-      <option value='Day'>Full Date</option>\
-      <option value='Month'>Month and Year</option>\
-      <option value='Year'>Year</option>\
+      <option value='None'>Seleziona</option>\
+      <option value='Day'>Data intera</option>\
+      <option value='Month'>Mese e anno</option>\
+      <option value='Year'>Anno</option>\
     </select>\
   </section>";
 
@@ -1653,63 +1653,63 @@ function add_field(field, res_type, backend_file=null) {
     var skos_labels = "";
   }
   var field_available_vocabularies = "<section class='row'>\
-    <label class='col-md-3'>VOCABULARIES LIST</label>\
+    <label class='col-md-3'>LISTA DI VOCABOLARI</label>\
     <section class='col-md-8'>"+skos_labels+"\
-    <label class='add_vocabulary_button'>ADD A NEW VOCABULARY <i class='fas fa-plus-circle' onclick='add_skos_vocab(this)'></i></label>\
+    <label class='add_vocabulary_button'>AGGIUNGI UN NUOVO VOCABOLARIO <i class='fas fa-plus-circle' onclick='add_skos_vocab(this)'></i></label>\
     </section>\
   </section>";
 
   var accepted_values_vocabularies =  "<section class='row'>\
-    <label class='col-md-3'>NUMBER OF VOCABLES</label>\
+    <label class='col-md-3'>NUMERO DI TERMINI</label>\
     <section class='col-md-8'>\
       <label for='oneVocable__"+temp_id+"'>\
-        Single vocable\
+        Singolo termine\
         <input type='radio' id='oneVocable__"+temp_id+"' name='vocables__"+temp_id+"' value='oneVocable' checked>\
       </label><br>\
       <label for='multipleVocables__"+temp_id+"'>\
-        Multiple vocables\
+       Termini multipli\
         <input type='radio' id='multipleVocables__"+temp_id+"' name='vocables__"+temp_id+"' value='multipleVocables'>\
       </label><br>\
     </section>\
   </section>";
 
   var field_multimedia = "<section class='row'>\
-    <label class='col-md-3'>MULTIMEDIA TYPE</label>\
+    <label class='col-md-3'>TIPO DI MULTIMEDIA</label>\
     <select class='col-md-8 ("+res_type+") custom-select' id='multimedia__"+temp_id+"' name='multimedia__"+temp_id+"'>\
-      <option value='None'>Select</option>\
+      <option value='None'>Seleziona</option>\
       <option value='Audio'>Audio</option>\
-      <option value='Image'>Image</option>\
+      <option value='Image'>Immagine</option>\
       <option value='Video'>Video</option>\
-      <option value='Audio Image Video'>All</option>\
+      <option value='Audio Image Video'>Tutti</option>\
     </select>\
   </section>";
 
   var field_placeholder = "<section class='row'>\
-    <label class='col-md-3'>PLACEHOLDER <br><span class='comment'>an example value to be shown to the user (optional)</span></label>\
+    <label class='col-md-3'>VALORE DI ESEMPIO <br><span class='comment'>un valore di esempio da mostrare all'utente (opzionale)</span></label>\
     <input type='text' id='placeholder__"+temp_id+"' class='col-md-8 align-self-start' name='placeholder__"+temp_id+"'/>\
   </section>";
 
   var field_values = "<section class='row'>\
-    <label class='col-md-3'>VALUES <br><span class='comment'>write one value per row in the form uri, label</span></label>\
+    <label class='col-md-3'>VALORI <br><span class='comment'>scivi una coppia per riga uri, etichetta (separati dalla virgola)</span></label>\
     <textarea id='values__"+temp_id+"' class='col-md-8 values_area align-self-start' name='values__"+temp_id+"'></textarea>\
   </section>";
 
   var field_browse = "<section class='row'>\
-    <label class='col-md-11 col-sm-6' for='browse__"+temp_id+"'>use this value as a filter in <em>Explore</em> page</label>\
+    <label class='col-md-11 col-sm-6' for='browse__"+temp_id+"'>usa questo valore come filtro nella pagina <em>Esplora</em></label>\
     <input type='checkbox' id='browse__"+temp_id+"' name='browse__"+temp_id+"'>\
   </section>"
   
   var field_extractor = "<section class='row'>\
     <label class='col-md-3'>KNOWLEDGE EXTRACTOR</label>\
-    <p class='col-md-8'>A Knowledge Extractor will be available during the record's creation</p>\
+    <p class='col-md-8'>Un Knowledge Extractor sarà disponibile durante la creazione della scheda</p>\
   </section>";
 
   var field_language = "<section class='row'>\
-    <label class='col-md-3'>LITERAL LANGUAGE</label>\
+    <label class='col-md-3'>LINGUA</label>\
     <select class='col-md-8 custom-select' id='lang__"+temp_id+"' name='lang__"+temp_id+"'>\
-      <option value='None'>Select</option>\
-      <option value='en'>English</option>\
-      <option value='it'>Italian</option>\
+      <option value='None'>Seleziona</option>\
+      <option value='en'>Inglese</option>\
+      <option value='it'>Italiano</option>\
     </select>\
   </section>";
 
@@ -1747,12 +1747,12 @@ function add_field(field, res_type, backend_file=null) {
 // if value == literal add disambiguate checkbox
 function add_disambiguate(temp_id, el) {
   var field_disambiguate = "<section class='row'>\
-    <label class='left col-md-11 col-sm-6' for='disambiguate__"+temp_id+"'>use this value as primary label (e.g. book title)</label>\
+    <label class='left col-md-11 col-sm-6' for='disambiguate__"+temp_id+"'>usa questo valore come titolo principale (e.g. titolo di libro)</label>\
     <input class='disambiguate' onClick='disable_other_cb(this)' type='checkbox' id='disambiguate__"+temp_id+"' name='disambiguate__"+temp_id+"'>\
     </section>";
 
   var field_browse = "<section class='row'>\
-    <label class='col-md-11 col-sm-6' for='browse__"+temp_id+"'>use this value as a filter in <em>Explore</em> page</label>\
+    <label class='col-md-11 col-sm-6' for='browse__"+temp_id+"'>usa questo valore come filtro nella pagina <em>Esplora</em></label>\
     <input type='checkbox' id='browse__"+temp_id+"' name='browse__"+temp_id+"'>\
   </section>";
 
@@ -1881,24 +1881,24 @@ function add_skos_vocab(element) {
 
   // generate the form
   var form = "<section class='row skos_vocab_generator'>\
-  <label class='col-md-3'><span class='comment'>label for the new vocabulary</span></label>\
-  <input type='text' id='vocabLabel' class='col-md-8' placeholder='e.g.: Example-label'></input>\
+  <label class='col-md-3'><span class='comment'>etichetta per il nuovo vocabolario</span></label>\
+  <input type='text' id='vocabLabel' class='col-md-8' placeholder='es.: Etichetta-Esempio'></input>\
   </section>\
   <section class='row skos_vocab_generator'>\
-  <label class='col-md-3'><span class='comment'>vocabulary's webpage</span></label>\
-  <input type='text' id='vocabUrl' class='col-md-8' placeholder='e.g.: https://exampleSKOS.org'></input>\
+  <label class='col-md-3'><span class='comment'>pagina web del vocabolario</span></label>\
+  <input type='text' id='vocabUrl' class='col-md-8' placeholder='es.: https://exampleSKOS.org'></input>\
   </section>\
   <section class='row skos_vocab_generator'>\
-  <label class='col-md-3'><span class='comment'>SPARQL query to get a label (?label) and a uri (?uri) for each vocable</span></label>\
-  <textarea id='vocabQuery' rows='5' placeholder='e.g.: select distinct ?label ?uri where' class='col-md-8'>select distinct ?label ?uri where {\n\n      ... ADD QUERY CONSTRAINTS  ...    \n\nFILTER(REGEX(?label, \"QUERY-TERM\", \"i\")) } LIMIT 100</textarea>\
+  <label class='col-md-3'><span class='comment'>Richiesta SPARQL per ottenere l'etichetta (?label) e l'URI (?uri) per ogni vocabolo</span></label>\
+  <textarea id='vocabQuery' rows='5' placeholder='es.: select distinct ?label ?uri where' class='col-md-8'>select distinct ?label ?uri where {\n\n      ...AGGIUNGI I VINCOLI DELLA RICHIESTA...    \n\nFILTER(REGEX(?label, \"QUERY-TERM\", \"i\")) } LIMIT 100</textarea>\
   </section>\
   <section class='row skos_vocab_generator'>\
-  <label class='col-md-3'><span class='comment'>SPARQL query endpoint</span></label>\
-  <input type='text' id='vocabEndpoint' placeholder='e.g.: https://exampleSKOS.org/sparql#' class='col-md-8'></input>\
+  <label class='col-md-3'><span class='comment'>Endpoint SPARQL per la richiesta</span></label>\
+  <input type='text' id='vocabEndpoint' placeholder='es.: https://exampleSKOS.org/sparql#' class='col-md-8'></input>\
   </section>\
   <section class='row skos_vocab_generator'>\
   <label class='col-md-3'></label>\
-  <input id='save_skos' class='btn btn-dark' style='margin-left:20px' value='Add Vocabulary' onClick='save_vocab(this)'>\
+  <input id='save_skos' class='btn btn-dark' style='margin-left:20px' value='Aggiungi vocabolario' onClick='save_vocab(this)'>\
   </section>"
   $(element).closest('.row').after(form);
 }
@@ -1944,7 +1944,7 @@ function save_vocab(element) {
 function check_input_form(input_array) {
   // check the name of the newly imported vocabulary (available_skos_vocabularies is defined in template.html)
   if (available_skos_vocabularies.toUpperCase().split("//").includes(input_array[0].toUpperCase())) {
-    alert('A vocabulary named '+input_array[0]+' already exists: choose a new label');
+    alert('Esiste già un vocabolario nominato '+input_array[0]+': scegli una nuova etichetta');
     return true;
   } 
   // check missing information
@@ -1970,9 +1970,9 @@ function extraction_form(element) {
   // create a select element containing the options to perform the extraction
   var extractor = $("<section class='block_field col-md-12'>\
     <section class='row'>\
-      <label class='col-md-3'>EXTRACTOR TYPE</label>\
+      <label class='col-md-3'>TIPO DI ESTRATTORE</label>\
       <select onchange='add_extractor(this)'class='col-md-8' id='extractor' name='extractor'>\
-        <option value='None'>Select</option>\
+        <option value='None'>Seleziona</option>\
         <option value='api'>API</option>\
         <option value='sparql'>SPARQL</option>\
         <option value='file'>Static File</option>\
@@ -2000,33 +2000,33 @@ function add_extractor(element) {
   $('.extractor_1').remove(); // remove previously created forms (in case the user changes the selected option)
   if (selected == 'api') {
     var form = "<section class='row extractor_1'>\
-    <label class='col-md-3'>API access point<br><span class='comment'>url of the API</span></label>\
-    <input type='text' id='ApiUrl' class='col-md-8' placeholder='e.g.: https://exampleApi.org/search'></input>\
+    <label class='col-md-3'>Punto di accesso all'API <br><span class='comment'>URL dell'API</span></label>\
+    <input type='text' id='ApiUrl' class='col-md-8' placeholder='es.: https://exampleApi.org/search'></input>\
     </section>\
     <section class='row extractor_1'>\
-    <label class='col-md-3'>QUERY PARAMETERS<br><span class='comment'>write one value per row in the form key, value</span></label>\
+    <label class='col-md-3'>PARAMETRI DELLA RICHIESTA<br><span class='comment'>scrivi un valore per riga nel formato chiave, valore</span></label>\
     <textarea id='ApiQuery' placeholder='query,query-term' class='col-md-8'></textarea>\
     </section>\
     <section class='row extractor_1'>\
-    <label class='col-md-3'>RESULT DICTIONARY<br><span class='comment'>write one value per row in the form key, value (i.e. URI/label,path to the URI/label)</span></label>\
+    <label class='col-md-3'>DIZIONARIO FINALE<br><span class='comment'>scrivi un valore per riga, nel formato chiave, valore (ovvero. URI/etichetta, percorso a URI/etichetta)</span></label>\
     <textarea id='ApiResults' placeholder='uri,json_results.results.bindings.uri\nlabel,json_results.results.bindings.label,' class='col-md-8'></textarea>\
     </section>";
   } else if (selected == 'sparql') {
     var form = "<section class='row extractor_1'>\
-    <label class='col-md-3'>SPARQL endpoint<br><span class='comment'>url of the endpoint</span></label>\
-    <input type='text' id='SparqlUrl' class='col-md-8' placeholder='e.g.: https://exampleSparql.org/sparql'></input>\
+    <label class='col-md-3'>SPARQL endpoint<br><span class='comment'>URL dell'endpoint</span></label>\
+    <input type='text' id='SparqlUrl' class='col-md-8' placeholder='es.: https://exampleSparql.org/sparql'></input>\
     </section>\
     <section class='row extractor_1'>\
-    <label class='col-md-3'>QUERY<br><span class='comment'>a sparql query to be performed</span></label>\
+    <label class='col-md-3'>QUERY<br><span class='comment'>Una richiesta SPARQL da effettuare</span></label>\
     <textarea id='SparqlQuery' placeholder='select distinct ?uri ?label where { ... }' class='col-md-8'></textarea>\
     </section>";
   } else if (selected == 'file' || selected == 'Select') {
     var form = "<section class='row extractor_1'>\
-    <label class='col-md-3'>FILE URL<br><span class='comment'>a URL to an external resource (a .json or .csv file)</span></label>\
+    <label class='col-md-3'>URL del FILE<br><span class='comment'>un URL a una risorsa esterna (un file .json o .csv)</span></label>\
     <input type='text' id='FileUrl' placeholder='http://externalResource.csv' class='col-md-8'></input>\
     </section>\
     <section class='row extractor_1'>\
-    <label class='col-md-3'>SPARQL.ANYTHING QUERY<br><span class='comment'>a Sparql.Anything query to retrieve results</span></label>\
+    <label class='col-md-3'>SPARQL.ANYTHING QUERY<br><span class='comment'>Una richiesta Sparql.Anything per estrarre i risultati</span></label>\
     <textarea id='FileQuery' placeholder='SELECT ?uri ?label WHERE {\n?uri ... \n?label ...}' class='col-md-8'></textarea>\
     </section>";
   }
@@ -2048,7 +2048,7 @@ function prev_extractor(to_hide, to_show, remove=false, id=null) {
   if (remove) {
     const button = $('.import_form').eq(0);
     if (id && $('#query_result_' + id).length>0) {
-      button.find(".imported_graphs").prepend($("<li id='graph-"+id+"'><label>Extraction Graph:  <i class='fas fa-trash' onclick='delete_extractor("+id+")'></i></label><br></li>"));
+      button.find(".imported_graphs").prepend($("<li id='graph-"+id+"'><label>Grafo di estrazione:  <i class='fas fa-trash' onclick='delete_extractor("+id+")'></i></label><br></li>"));
       var results = JSON.parse($('#query_result_' + id).val()).results.bindings;
       for (let idx = 0; idx < results.length; idx++) {
         for (const key in results[idx]) {
