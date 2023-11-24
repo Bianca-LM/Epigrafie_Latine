@@ -14,9 +14,9 @@ $if alert == False:
 			setTimeout( function(){ document.getElementById( "recordForm" ).reset(); }, 5 );
 		</script>
 		$if invalid == True:
-			<h3>The form is not valid, please check mandatory fields</h3>
+			<h3>Il modulo non è valido, per favore controlla i campi obbligatori</h3>
 		$else:
-			<h3>Thanks for helping $project to grow!</h3>
+			<h3>Grazie per aiutare $project a crescere!</h3>
 	</header>
 	<section class="corners row">
 		<section class="col-md-8 col-lg-8 col-sm-8">
@@ -53,16 +53,16 @@ $if alert == False:
 										</script>
 									$if type(input) == Dropdown:
 										<script type="text/javascript">
-											$$('#$id').prepend($$('<option value="None">Select from the list</option>'));
+											$$('#$id').prepend($$('<option value="None">Seleziona dalla lista</option>'));
 										</script>
 							</section>
 							<script>console.log('$knowledge_extractor')</script>
 						$if knowledge_extractor:
 						
 							<section class="row import_form">
-								<section class="col-md-12 col-sm-12 col-lg-12">KEYWORDS</section>
+								<section class="col-md-12 col-sm-12 col-lg-12">PAROLE CHIAVE</section>
 									<ul class="imported_graphs" id="imported_graphs">
-										<li id="add_extractor"><label class='add_graph_button'>Extract keywords  <i class='fas fa-plus-circle' onclick="extraction_form(this), window.scrollTo(0, 0);"></i></label></li>
+										<li id="add_extractor"><label class='add_graph_button'>Estrai le parole chiave<i class='fas fa-plus-circle' onclick="extraction_form(this), window.scrollTo(0, 0);"></i></label></li>
 									</ul>
 							</section>
 							<script>
@@ -70,11 +70,11 @@ $if alert == False:
 							</script>
 					</section>
 					<section class="homeheading col-md-4 col-sm-4 col-lg-4">
-						<h2>What did you find?</h2>
+						<h2>Cosa hai trovato?</h2>
 					</section>
 				</section>
 				<section class="buttonsSection">
-					<input id="save_record" class="btn btn-dark" type="submit" value="Save"/>
+					<input id="save_record" class="btn btn-dark" type="submit" value="Salva"/>
 				</section>
 			</form>
 		</section>
@@ -107,5 +107,5 @@ $if alert == False:
 	</script> -->
 $else:
 	<header class="row needDoc">
-		<h3>You already proposed $limit new resources today! Please come back tomorrow</h3>
+		<h3>Hai già proposto $limit nuove schede per oggi! Per favore, torna domani</h3>
 	</header>
