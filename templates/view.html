@@ -8,7 +8,7 @@ $var project = project
 	<section class="col-md-8 row">
 			<h2 class="articleTitle col-md-12" property="name">$title
 			$if 'modified' in stage:
-				<span>draft</span>
+				<span>bozza</span>
 			</h2>	
 			<!--EPIGRAFI DATA CUSTOMIZATION-->
 			$if "Human-Made" in entity: 
@@ -107,7 +107,7 @@ $var project = project
 					</section>
 			$if knowledge_extractor:
 				<section class="info-item col-md-5 col-sm-12">
-					<h4 class="articleSubtitle">KEYWORDS </h4>
+					<h4 class="articleSubtitle">PAROLE CHIAVE </h4>
 					$for extraction in knowledge_extractor:
 						$if extraction != "next_id":
 							$for extracted_keyword in knowledge_extractor[extraction]:
@@ -126,9 +126,9 @@ $var project = project
 				<p>$base$graphID</p>
 		</section>
 		<section class="biblio">
-			<h3 class="biblio-label">Would you like to modify this record?</h3>
-				<p>If you already have an account on $project</p>
-				<button type="button" class="btn btn-dark" name="button" onclick="window.location.href='modify-$graphID'">Click here</button>
+			<h3 class="biblio-label">Vorresti modificare questa scheda?</h3>
+				<p>Se hai già un profilo in $project</p>
+				<button type="button" class="btn btn-dark" name="button" onclick="window.location.href='modify-$graphID'">Clicca qui</button>
 		</section>
 	</section>
 	<hr/>
