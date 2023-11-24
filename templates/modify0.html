@@ -5,7 +5,7 @@ $var is_git_auth = is_git_auth
 $var project = project
 
 <header class="row needDoc">
-	<button id="showRight">&gt; help</button>
+	<button id="showRight">&gt; Aiuto</button>
 	<script type="text/javascript">
 		$$('#cbp-spmenu-s2').load( "./documentation #documentation", function() {
 			$$(".documentation").removeClass('col-md-7').addClass('col-md-12 col-sm-4');
@@ -13,9 +13,9 @@ $var project = project
 		} );
 	</script>
 	$if invalid == True:
-		<h3>The form is not valid, please check mandatory fields</h3>
+		<h3>Il modulo non è valido, per favore controlla i campi obbligatori</h3>
 	$else:
-		<h3>Modify record</h3>
+		<h3>Modifica la scheda</h3>
 </header>
 <section class="row">
 
@@ -61,7 +61,7 @@ $var project = project
 											$:input.render()
 											$if len(graphdata[id]) > 0:
 												<script type="text/javascript">
-													$$('#$id').prepend($$('<option value="None">Select from the list</option>'));
+													$$('#$id').prepend($$('<option value="None">Seleziona un vlore dalla lista</option>'));
 													$$("#$id option[value$$=$graphdata[id][0][0]]").attr("selected","selected");
 												</script>
 
@@ -76,7 +76,7 @@ $var project = project
 										$:input.render()
 										$if len(graphdata[id]) == 0:
 											<script type="text/javascript">
-												$$('#$id').prepend($$('<option selected=selected value="None">Select from the list</option>'));
+												$$('#$id').prepend($$('<option selected=selected value="None">Seleziona un valore dalla lista</option>'));
 											</script>
 								</section>
 						</section>
@@ -95,7 +95,7 @@ $var project = project
 			</section>
 
 			<section class="buttonsSection">
-				<input class="btn btn-dark" type="submit" value="Save"/>
+				<input class="btn btn-dark" type="submit" value="Salva"/>
 			</section>
 		</form>
 	</section>
