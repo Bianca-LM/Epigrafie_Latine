@@ -12,32 +12,32 @@ $var project = project
 
 <header class="row">
   $ user_welcome = " "+user if user != 'anonymous' else ""
-  <h3 class="col-md-12 col-lg-12 col-sm-12">Welcome$user_welcome!</h3>
+  <h3 class="col-md-12 col-lg-12 col-sm-12">Benvenuto $user_welcome!</h3>
 </header>
 <section class="corners d-flex flex-row filters">
     <section class="p-12 index_menu">
       <form class='p-3' action='' method='POST'>
-        <button class="menu_btn" name="action" value="filterNew" type="submit">not reviewed ($notreviewed)</button>
+        <button class="menu_btn" name="action" value="filterNew" type="submit">non revisionato ($notreviewed)</button>
       </form>
       <form class='p-3' action='' method='POST'>
-        <button class="menu_btn" name="action" value="filterReviewed" type="submit">under review ($underreview)</button>
+        <button class="menu_btn" name="action" value="filterReviewed" type="submit">sotto revisione ($underreview)</button>
       </form>
       <form class='p-3' action='' method='POST'>
-        <button class="menu_btn" name="action" value="filterPublished" type="submit">published ($published)</button>
+        <button class="menu_btn" name="action" value="filterPublished" type="submit">pubblicato ($published)</button>
       </form>
       <form class='p-3' action='' method='POST'>
-        <button class="menu_btn" name="action" value="filterAll" type="submit">all ($alll)</button>
+        <button class="menu_btn" name="action" value="filterAll" type="submit">tutti ($alll)</button>
       </form>
       <hr/>
       <form class='p-2' action='' method='POST' id="create_form">
-        <button class="btn btn-dark" name="action" value="createRecord$varIDpage" type="submit">Create a new record</button>
+        <button class="btn btn-dark" name="action" value="createRecord$varIDpage" type="submit">Crea una nuova scheda</button>
       </form>
-      <button onclick="window.location.href='setup'" title="setup" class="menu_btn">Setup <i class="fas fa-cogs"></i></button>
+      <button onclick="window.location.href='setup'" title="Configurazione" class="menu_btn">Setup <i class="fas fa-cogs"></i></button>
       <section class="btn-group">
-        <button id="showTemplates" title="form template" class="menu_btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Templates</button>
+        <button id="showTemplates" title="form template" class="menu_btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Modelli</button>
         <section class="dropdown-menu gradient_dropbox" aria-labelledby="showTemplates" role="menu">
           $if len(templates) == 0:
-            <p class="res_class_small">there are no templates yet</p>
+            <p class="res_class_small">Non ci sono ancora modelli</p>
           $else:
             $for t in templates:
               $if 'status' not in t:
@@ -45,14 +45,14 @@ $var project = project
         </section>
       </section>
       <section class="btn-group">
-        <button id="selectTemplateClassButton" title="create a new template" class="menu_btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Create a new template</button>
+        <button id="selectTemplateClassButton" title="Crea un nuovo modello" class="menu_btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Crea un nuovo modello</button>
         <section class="dropdown-menu gradient_dropbox" aria-labelledby="selectTemplateClassButton" role="menu">
           <form id="selectTemplateClass" name="selectTemplateClass" class="" method="POST">
-            <p>Choose a name</p>
+            <p>Scegli un nome</p>
             <input type="text" name="class_name" value="">
-            <p>OWL class</p>
+            <p>Classe OWL</p>
             <input type="text" name="class_uri" value="">
-            <button class="btn btn-dark" name="action" value="createTemplate" type="submit">Create template</button>
+            <button class="btn btn-dark" name="action" value="createTemplate" type="submit">Crea un modello</button>
           </form>
         </section>
       </section>
@@ -64,16 +64,16 @@ $var project = project
 <section class="col-md-12 col-sm-12">
 
   <article>
-    <h3>Records</h3>
+    <h3>Schede</h3>
     $if len(wikilist) > 0:
       <table id="recordsList">
         <tr>
-          <th>Record</th>
-          <th>Created by</th>
-          <th>Modified by</th>
-          <th>Last modified</th>
-          <th>Stage</th>
-          <th>Actions</th>
+          <th>Scheda</th>
+          <th>Creata da</th>
+          <th>Modificata da</th>
+          <th>Ultima Modifica</th>
+          <th>Stato</th>
+          <th>Azioni</th>
         </tr>
         $for result in wikilist:
           $ modified = 'modified' if result[5] == 'modified' else ''
@@ -87,20 +87,20 @@ $var project = project
             <td>
               $if result[5] == 'not modified' or result[5] == 'modified' or result[5] == '-':
                 <form id="modified" action="" method='POST'>
-                  <button class="btn btn-dark delete" data-toggle="modal" data-target="#popup" name="action" value="deleteRecord$:result[0] __$filter" type="submit" title="delete"><i class="far fa-trash-alt"></i></button>
-                  <button class="btn btn-dark" name="action" value="modifyRecord$:result[0]" type="submit" title="modify"><i class="far fa-edit"></i></button>
-                  <button class="btn btn-dark" name="action" value="reviewRecord$:result[0]" type="submit" title="review and publish"><i class="far fa-check-circle"></i></button>
+                  <button class="btn btn-dark delete" data-toggle="modal" data-target="#popup" name="action" value="deleteRecord$:result[0] __$filter" type="submit" title="Elimina"><i class="far fa-trash-alt"></i></button>
+                  <button class="btn btn-dark" name="action" value="modifyRecord$:result[0]" type="submit" title="Modifica"><i class="far fa-edit"></i></button>
+                  <button class="btn btn-dark" name="action" value="reviewRecord$:result[0]" type="submit" title="Revisiona e pubblica"><i class="far fa-check-circle"></i></button>
                 </form>
               $elif result[5] == 'in review':
                 <form id="review" action="" method='POST'>
-                  <button class="btn btn-dark delete" data-toggle="modal" data-target="#popup" name="action" value="deleteRecord$:result[0] __$filter" type="submit" title="delete"><i class="far fa-trash-alt"></i></button>
-                  <button class="btn btn-dark" name="action" value="modifyRecord$:result[0]" type="submit" title="modify"><i class="far fa-edit"></i></button>
-                  <button class="btn btn-dark" name="action" value="reviewRecord$:result[0]" type="submit" title="review and publish"><i class="far fa-check-circle"></i></button>
+                  <button class="btn btn-dark delete" data-toggle="modal" data-target="#popup" name="action" value="deleteRecord$:result[0] __$filter" type="submit" title="Elimina"><i class="far fa-trash-alt"></i></button>
+                  <button class="btn btn-dark" name="action" value="modifyRecord$:result[0]" type="submit" title="Modifica"><i class="far fa-edit"></i></button>
+                  <button class="btn btn-dark" name="action" value="reviewRecord$:result[0]" type="submit" title="Revisiona e pubblica"><i class="far fa-check-circle"></i></button>
                 </form>
               $elif result[5] == 'published':
                 <form id="published" action="" method='POST'>
-                  <button class="btn btn-dark delete" data-toggle="modal" data-target="#popup" name="action" value="deleteRecord$:result[0] __$filter" type="submit" title="delete"><i class="far fa-trash-alt"></i></button>
-                  <button class="btn btn-dark" name="action" value="modifyRecord$:result[0]" type="submit" title="modify"><i class="far fa-edit"></i></button>
+                  <button class="btn btn-dark delete" data-toggle="modal" data-target="#popup" name="action" value="deleteRecord$:result[0] __$filter" type="submit" title="Elimina"><i class="far fa-trash-alt"></i></button>
+                  <button class="btn btn-dark" name="action" value="modifyRecord$:result[0]" type="submit" title="Modifica"><i class="far fa-edit"></i></button>
                 </form>
               $else:
                 <span>unknown</span>
@@ -120,8 +120,8 @@ $var project = project
         </form>
       </section>
     $else:
-      <h4>There are no records to show!</h4>
-      <p>If this looks like a mistake, control your <a href="setup">setup</a> configuration - e.g. the endpoint URL or the base URL.</p>
+      <h4>Non ci sono schede da mostrare!</h4>
+      <p>Se ti sembra che ci sia un errore, controlla la tua <a href="setup">configurazione</a> - ad esempio l'URL dell'endpoin o l'URL base.</p>
   </article>
   <!-- <h2>Search</h2>
 
