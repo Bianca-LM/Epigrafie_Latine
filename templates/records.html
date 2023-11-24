@@ -6,7 +6,7 @@ $var project=project
 
 
 <header class="row">
-	<h3 class="col-md-12 col-lg-12 col-sm-12">Explore $project</h3>
+	<h3 class="col-md-12 col-lg-12 col-sm-12">Esplora $project</h3>
 </header>
 <ul class="corners nav nav-tabs mb-3" id="resource_classes_tab" role="tablist">
 	$ first_class=list(data.keys())[0]
@@ -41,11 +41,11 @@ $var project=project
 								<section class="row change_background">
 									<section class="homeheading col-md-4 col-sm-12">
 										<p class="caption">$filter[1]</p>
-										<h2>Browse by $filter[1]</h2>
+										<h2>Naviga per $filter[1]</h2>
 									</section>
 									<section class="homeheadingtext col-md-7 col-sm-12">
 										$if filter[2] == 'Textbox' and filter[3] == 'Literal':
-											<p>Filter alphabetically</p>
+											<p>Filtra in ordine alfabetico</p>
 												<section class="wrapAllparent" id="toc_resources_$res_id">
 													<section class="alphabet" id="alphabet_$res_id">
 													</section>
@@ -58,12 +58,12 @@ $var project=project
 
 												</section>
 										$elif filter[2] in ['Textbox', 'Vocab'] and (filter[3] == 'URI' or filter[3] == 'Place' or filter[3] == 'URL'):
-											<p>Filter by most recurring values</p>
+											<p>Filtra in base ai valori più ricorrenti</p>
 											$ elemID = res_id+filter[1].replace(' ','')
 											$ results = elemID+"results"
 											<section id="$elemID" class="indexURI">
 											</section>
-											<button class="showMore" type="button">show more</button>
+											<button class="showMore" type="button">mostra altro</button>
 											<script type="text/javascript">
 												getPropertyValue("$elemID", "$filter[0]", "$filter[3]", "$filter[2]", "$res_owl_class");
 											</script>
@@ -72,12 +72,12 @@ $var project=project
 											</section>
 
 										$elif filter[2] in ['Dropdown','Checkbox'] and filter[3] == 'URI':
-											<p>Filter by most recurring values</p>
+											<p>Filtra in base ai valori più ricorrenti</p>
 											$ elemID = res_id+filter[1].replace(' ','')
 											$ results = elemID+"results"
 											<section id="$elemID" class="indexURI">
 											</section>
-											<button class="showMore" type="button">show more</button>
+											<button class="showMore" type="button">mostra altro</button>
 											<script type="text/javascript">
 												getPropertyValue("$elemID", "$filter[0]", "$filter[3]", "$filter[2]","$res_owl_class");
 											</script>
@@ -85,12 +85,12 @@ $var project=project
 												<section id="$results" class="$results collapse"></section>
 											</section>
 										$elif filter[2] in ['Date'] and filter[3] in ['gYear', 'gYearMonth', 'Date']:
-											<p>Filter by most recurring values</p>
+											<p>Filtra in base ai valori più ricorrenti</p>
 											$ elemID = res_id+filter[1].replace(' ','')
 											$ results = elemID+"results"
 											<section id="$elemID" class="indexURI">
 											</section>
-											<button class="showMore" type="button">show more</button>
+											<button class="showMore" type="button">mostra altro</button>
 											<script type="text/javascript">
 												getPropertyValue("$elemID", "$filter[0]", "$filter[3]", "$filter[2]","$res_owl_class");
 											</script>
