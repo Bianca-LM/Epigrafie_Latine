@@ -25,17 +25,17 @@ $var project = project
 								$if field["type"] != "KnowledgeExtractor":
 									<!-- TYPE -->
 									<section class="row">
-										<label class="col-md-3">FIELD TYPE</label>
+										<label class="col-md-3">TIPO DI CAMPO</label>
 										<select onchange="change_fields(this)" class="col-md-8 ($res_type) custom-select" id="type__$id" name="type__$id">
-										<option value="None">Select</option>
-										<option value="Textbox">Textbox (text values or name of entities)</option>
-										<option value="Textarea">Textarea (long textual descriptions)</option>
-										<option value="Dropdown">Dropdown (select one value from a list)</option>
-										<option value="Checkbox">Checkbox (multiple choice)</option>
-										<option value="Date">Date (select a day/month/year/timespan)</option>
-										<option value="Multimedia">Multimedia (audio, image, video)</option>
-										<option value="Vocab">Vocabulary (SKOS)</option>
-										<option value="WebsitePreview">Website Preview (iframe)</option>
+										<option value="None">Seleziona</option>
+										<option value="Textbox">Campo di testo (valori testuali o nomi di entità)</option>
+										<option value="Textarea">Area di testo (lunghe descrizioni testuali)</option>
+										<option value="Dropdown">Opzioni a tendina (seleziona un valore da una lista)</option>
+										<option value="Checkbox">Caselle di spunta (scelta multipla)</option>
+										<option value="Date">Date (seleziona un giorno/mese/anno/periodo)</option>
+										<option value="Multimedia">Multimedia (audio, immagine, video)</option>
+										<option value="Vocab">Vocabolari (SKOS)</option>
+										<option value="WebsitePreview">Anteprima di sito (iframe)</option>
 										</select>
 										<script type="text/javascript">
 											$$('#type__$id option[value$$=$field["type"]').attr("selected","selected");
@@ -44,19 +44,19 @@ $var project = project
 
 									<!-- LABEL -->
 									<section class="row">
-										<label class="col-md-3">DISPLAY NAME</label>
+										<label class="col-md-3">NOME DA MOSTRARE</label>
 										<input type="text" id="label__$id" class="col-md-8" name="label__$id" value="${field['label']}"/>
 									</section>
 
 									<!-- PREPEND -->
 									<section class="row">
-										<label class="col-md-3">DESCRIPTION <br><span class="comment">a short explanation of the expected value</span></label>
+										<label class="col-md-3">DESCRIZIONE<br><span class="comment"> una breve spiegazione del valore atteso</span></label>
 										<textarea id="prepend__$id" class="col-md-8 align-self-start" name="prepend__$id" rows="5">$:field["prepend"]</textarea>
 									</section>
 
 									<!-- PROPERTY -->
 									<section class="row">
-										<label class="col-md-3">RDF PROPERTY <br><span class="comment">start typing to get suggestions from LOV</span></label>
+										<label class="col-md-3">PROPRIETÀ RDF<br><span class="comment"> inizia a digitare per ricevere suggerimenti da LOV</span></label>
 										<input type="text" id="property__$id" class="col-md-8 searchLOV" name="property__$id" value='${field["property"]}'/>
 										<div id="searchresult"> </div>
 									</section>
@@ -66,12 +66,12 @@ $var project = project
 										$if field["type"] == "Textbox":
 											<!-- VALUE -->
 											<section class="row">
-												<label class='col-md-3'>VALUE TYPE</label>
+												<label class='col-md-3'>TIPO DI VALORE</label>
 												<select class="col-md-8 ($res_type) custom-select" id="value__$id" name="value__$id" onchange="add_disambiguate('$id',this)">
-													<option value="None">Select</option>
-													<option value="Literal">Free text (Literal)</option>
-													<option value="URI">Entity (URI from Wikidata, VIAF, or catalogue)</option>
-													<option value="Place">Location (from geonames)</option>
+													<option value="None">Seleziona</option>
+													<option value="Literal">Testo libero (Literal)</option>
+													<option value="URI">Entità (URI da Wikidata, VIAF, o catalogo)</option>
+													<option value="Place">Collocazione (da geonames)</option>
 													<option value="URL">URL</option>
 												</select>
 												<script type="text/javascript">
@@ -80,22 +80,22 @@ $var project = project
 											</section>												
 											<!-- PLACEHOLDER -->
 											<section class="row">
-												<label class='col-md-3'>PLACEHOLDER <br><span class="comment">an example value to be shown to the user (optional)</span></label>
+												<label class='col-md-3'>VALORE DI ESEMPIO <br><span class="comment">un esempio del tipo di valore da inserire da mostrare all'utente (opzionale)</span></label>
 												<input type="text" id="placeholder__$id" class="col-md-8 align-self-start" name="placeholder__$id" value="${field['placeholder']}"/>
 											</section>
 										$elif field['type'] == 'Textarea':
 											<!-- PLACEHOLDER -->
 											<section class="row">
-												<label class='col-md-3'>PLACEHOLDER <br><span class="comment">an example value to be shown to the user (optional)</span></label>
+												<label class='col-md-3'>VALORE DI ESEMPIO  <br><span class="comment">un esempio del tipo di valore da inserire da mostrare all'utente (opzionale)</span></label>
 												<input type='text' id='placeholder__$id' class='col-md-8 align-self-start' name='placeholder__$id' value="${field['placeholder']}"/>
 											</section>
 											<!-- LANGUAGE -->
 											<section class='row'>
-												<label class='col-md-3'>LITERAL LANGUAGE</label>
+												<label class='col-md-3'>LINGUA DEL TESTO</label>
 												<select class='col-md-8' id='lang__$id' name='lang__$id'>
-													<option value='None'>Select</option>
-													<option value='en'>English</option>
-													<option value='it'>Italian</option>
+													<option value='None'>Seleziona</option>
+													<option value='en'>Ingelse</option>
+													<option value='it'>Italiano</option>
 												</select>
 											</section>
 											<script type="text/javascript">
@@ -105,12 +105,12 @@ $var project = project
 										$elif field['type'] == 'Date':
 											<!-- VALUE DATE -->
 											<section class="row">
-												<label class='col-md-3'>CALENDAR TYPE</label>
+												<label class='col-md-3'>TIPO DI CALENDARIO</label>
 												<select class="col-md-8 ($res_type) custom-select" id='calendar__$id' name='calendar__$id'>
-													<option value="None">Select</option>
-													<option value='Day'>Full Date</option>
-													<option value='Month'>Month and Year</option>
-													<option value='Year'>Year</option>
+													<option value="None">Seleziona</option>
+													<option value='Day'>Data completa</option>
+													<option value='Month'>Mese e anno</option>
+													<option value='Year'>Anno</option>
 												</select>
 												<script type="text/javascript">
 													$$("#calendar__$id option[value$$=$field['calendar']").attr("selected","selected");
@@ -119,13 +119,13 @@ $var project = project
 										$elif field['type'] == 'Multimedia':
 											<!-- VALUE MULTIMEDIA -->
 											<section class="row">
-												<label class='col-md-3'>MULTIMEDIA TYPE</label>
+												<label class='col-md-3'>TIPO DI MULTIMEDIA</label>
 												<select class="col-md-8 ($res_type) custom-select" id='multimedia__$id' name='multimedia__$id'>
-													<option value="None">Select</option>
+													<option value="None">Seleziona</option>
 													<option value='Audio'>Audio</option>
-													<option value='Image'>Image</option>
+													<option value='Image'>Immagine</option>
 													<option value='Video'>Video</option>
-													<option value='Audio Image Video'>All</option>
+													<option value='Audio Image Video'>Tutti</option>
 												</select>
 												<script type="text/javascript">
 													$$("#multimedia__$id option[value$$='"+"$field['multimedia']"+"']").attr("selected","selected");
@@ -134,7 +134,7 @@ $var project = project
 										$elif field['type'] == 'Vocab':
 											<!-- VOCABULARIES LIST -->
 											<section class='row'>
-												<label class='col-md-3'>VOCABULARIES LIST</label>
+												<label class='col-md-3'>LISTA DEI VOCABOLARI</label>
 												<section class="col-md-8">
 												$if len(skos_vocabs) > 0:
 													$ n = 0
@@ -146,18 +146,18 @@ $var project = project
 															<script type="text/javascript">
 																$$('#vocab$idx').attr('checked','checked');
 															</script>
-													<label class="add_vocabulary_button">ADD A NEW VOCABULARY <i class='fas fa-plus-circle' onClick='add_skos_vocab(this)'></i></label>
+													<label class="add_vocabulary_button">AGGIUNGI UN VOCABOLARIO <i class='fas fa-plus-circle' onClick='add_skos_vocab(this)'></i></label>
 												</section>
 											</section>
 											<section class='row'>
-												<label class='col-md-3'>NUMBER OF TERMS</label>
+												<label class='col-md-3'>NUMERO DI TERMINI</label>
 												<section class='col-md-8'>
 													<label for='vocable1__$id'>
-														Single term
+														Singolo termine
 														<input type='radio' id='oneVocable__$id' name='vocables__$id' value='oneVocable'>
 														</label><br>
 													<label for='vocable2__$id'>
-														Multiple terms
+														Termini multipli
 														<input type='radio' id='multipleVocables__$id' name='vocables__$id' value='multipleVocables'>
 														</label><br>
 												</section>
@@ -171,13 +171,13 @@ $var project = project
 										$elif field['type'] == 'WebsitePreview':
 											<!-- PLACEHOLDER -->
 											<section class="row">
-												<label class='col-md-3'>PLACEHOLDER <br><span class="comment">an example value to be shown to the user (optional)</span></label>
+												<label class='col-md-3'>VALORE DI ESEMPIO  <br><span class="comment">un esempio del tipo di valore da inserire da mostrare all'utente (opzionale)</span></label>
 												<input type='text' id='placeholder__$id' class='col-md-8 align-self-start' name='placeholder__$id' value="${field['placeholder']}"/>
 											</section>
 										$else:
 											<!-- VALUES -->
 											<section class="row">
-												<label class='col-md-3'>VALUES <br><span class="comment">write one pair uri, label (comma separated) per row</span></label>
+												<label class='col-md-3'>VALORI <br><span class="comment">scivi una coppia per riga uri, etichetta (separati dalla virgola) </span></label>
 												$ num_rows = len(field["values"])*2
 												<textarea id='values__$id' class='col-md-8 values_area' name='values__$id' rows="$num_rows">
 												$for uri,lab in field["values"].items():
@@ -189,14 +189,14 @@ $var project = project
 											<!-- BROWSE -->
 											<section class="row">
 												$ checked_browse = "checked=checked" if 'browse'in field and field["browse"] == "True" else ""
-												<label class="left col-md-11 col-sm-6" for="browse__$id">use this value as a filter in <em>Explore</em> page</label>
+												<label class="left col-md-11 col-sm-6" for="browse__$id">Usa questo valore come filtro nella pagina <em>Esplora</em> </label>
 												<input $checked_browse type="checkbox" id="browse__$id" name="browse__$id">
 											</section>
 										$if 'value' in field and field['value'] == 'Literal' and field['type'] == 'Textbox':
 											$ checked_disambiguate = "checked=checked" if 'disambiguate'in field and field["disambiguate"] == "True" else ""
 											<!-- DISAMBIGUATE -->
 											<section class="row">
-												<label class="left col-md-11 col-sm-6" for="disambiguate__$id">use this value as primary label (e.g. book title)</label>
+												<label class="left col-md-11 col-sm-6" for="disambiguate__$id">Usa questo valore come identificativo principale (e.g. titolo del libro)</label>
 												<input $checked_disambiguate class='disambiguate' onClick='disable_other_cb(this)' type="checkbox" id="disambiguate__$id" name="disambiguate__$id">
 											</section>
 									</section>
@@ -204,75 +204,75 @@ $var project = project
 									<!-- KNOWLEDGE EXTRACTOR -->
 									<section class='row'>\
 										<label class='col-md-3'>KNOWLEDGE EXTRACTOR</label>\
-										<p class='col-md-8'>A Knowledge Extractor will be available during the record's creation</p>\
+										<p class='col-md-8'>Un Knowledge Extractor sarà disponibile durante la creazione della scheda</p>\
 									</section>
 								<a href="#" class="up"><i class="fas fa-arrow-up"></i></a> <a href="#" class="down"><i class="fas fa-arrow-down"></i></a>
 								<a href="#" class="trash"><i class="far fa-trash-alt"></i></a>
 							</section>
 				</section>
 				<section class="add_fields homeheading col-md-12 col-lg-12 col-sm-12">
-					<a class="link_btn" onclick="add_field('Textbox','$res_type')" name="add_textbox">Add Textbox</a>
-					<a class="link_btn" onclick="add_field('Textarea','$res_type')" name="add_textarea">Add Textarea</a>
-					<a class="link_btn" onclick="add_field('Dropdown','$res_type')" name="add_dropdown">Add Dropdown</a>
-					<a class="link_btn" onclick="add_field('Checkbox','$res_type')" name="add_checkbox">Add Checkbox</a>
-					<a class="link_btn" onclick="add_field('Date','$res_type')" name="add_date">Add Date</a>
-					<a class="link_btn" onclick="add_field('Multimedia','$res_type')" name="add_multimedia">Add Multimedia</a>
+					<a class="link_btn" onclick="add_field('Textbox','$res_type')" name="add_textbox">Aggiungi Campo di testo</a>
+					<a class="link_btn" onclick="add_field('Textarea','$res_type')" name="add_textarea">Aggiungi Area di testo</a>
+					<a class="link_btn" onclick="add_field('Dropdown','$res_type')" name="add_dropdown">Aggiungi Opzioni a tendina</a>
+					<a class="link_btn" onclick="add_field('Checkbox','$res_type')" name="add_checkbox">Aggiungi Caselle di spunta</a>
+					<a class="link_btn" onclick="add_field('Date','$res_type')" name="add_date">Aggiungi Date</a>
+					<a class="link_btn" onclick="add_field('Multimedia','$res_type')" name="add_multimedia">Aggiungi Multimedia</a>
 					$ vocabs = "//".join(list(skos_vocabs.keys()))
-					<a class="link_btn" onclick="add_field('Vocab','$res_type', '$vocabs')" name="add_vocabulary">Add Vocabulary</a>
-					<a class="link_btn" onclick="add_field('WebsitePreview','$res_type')" name="add_preview">Add Website Preview</a>
-					<a class="link_btn" onclick="add_field('KnowledgeExtractor','$res_type')" name="add_extractor">Add Knowledge Extraction</a>
+					<a class="link_btn" onclick="add_field('Vocab','$res_type', '$vocabs')" name="add_vocabulary">Aggiungi Vocabulari</a>
+					<a class="link_btn" onclick="add_field('WebsitePreview','$res_type')" name="add_preview">Aggiungi Anteprima di sito web</a>
+					<a class="link_btn" onclick="add_field('KnowledgeExtractor','$res_type')" name="add_extractor">Aggiungi  Knowledge Extraction</a>
 					<script type="text/javascript">
 						var available_skos_vocabularies = '$vocabs';
 					</script>
 				</section>
 			</section>
 			<section class="buttonsSection">
-				<button id="updateTemplate" name="action" value="updateTemplate-$res_name" class="btn btn-dark" type="submit">Save</button>
-				<button class="btn btn-dark delete_template" data-toggle="modal" data-target="#popup" name="action" value="deleteTemplate-$res_name" type="submit" title="delete">Delete <i class="far fa-trash-alt"></i></button>
+				<button id="updateTemplate" name="action" value="updateTemplate-$res_name" class="btn btn-dark" type="submit">Salva</button>
+				<button class="btn btn-dark delete_template" data-toggle="modal" data-target="#popup" name="action" value="deleteTemplate-$res_name" type="submit" title="delete">Elimina<i class="far fa-trash-alt"></i></button>
 			</section>
 		</form>
 	</section>
 	<section class="homeheading col-md-4 col-sm-4 col-lg-4">
-		<p class="caption">Tips</p>
-		<p>You can create your template for data entry in few easy steps! Select the appearance of your field (text box, dropdown, checkbox), name it and provide a short description.</p>
-		<p>Start typing the full URI or the prefix (e.g. <code>foaf:depic..</code>) of the RDF property to be associated to the field.
-		You will get suggestions from the <a href="https://lov.linkeddata.es/">LOV vocabularies catalogue</a> for autocompletion.
-		Easy right? You can still choose to ignore suggestions and create your own property.</p>
-		<p>Field values can be free text, entities, or controlled lists of terms.</p>
-		<h5>Text box</h5>
+		<p class="caption">Consigli</p>
+		<p>Puoi creare il tuo modello per l'inserimento dati in pochi semplici passi! Seleziona l'aspetto del tuo campo (campo di testo, menu a tendina, caselle di spunta), dagli un nome e fornisci una breve descrizione.</p>
+		<p>Inizia a digitare l'URI completo o il presisso (e.g. <code>foaf:depic..</code>) della propietà property da associare al campo.
+		Riceverai dei suggerimenti dal <a href="https://lov.linkeddata.es/">catalogo terminologico LOV</a> per il completamento automatico.
+		Facile, no? Puoi sempre decidere di ignorare i suggerimenti e crere la tua proprietà.</p>
+		<p>I campi di valore possono essere testo libero, entità, o liste di termini controllati.</p>
+		<h5>Campo di testo</h5>
 		<p>
-			<code>Free text</code>: any free text descriptions. You can use this field value as the main title the record (use the checkbox below).
-			You <b>must</b> select one field as a title.</p>
+			<code>Testo libero</code>: qualsiasi descrizione testuale libera. Puoi usare questo valore di campo come il titoloo priincipale della scheda (seleziona la casella in basso).
+			È <b>obbligatorio</b> selezionare un campo come titolo.</p>
 		<p>
-			<code>Entity</code>: a term that can be reused in other records. When creating a record, you'll get autocompletion suggestions from <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">Wikidata</a>, <a href="https://viaf.org/">VIAF</a>, and the catalogue.
-			 You can select this field to be used as a filter in the page Explore. You can create as many filters as you want.
+			<code>Entità</code>: un termine che può essere riutilizzato in altre schede. Durante la creazione di una scheda, riceverai suggerimenti di compilazione automatica da <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">Wikidata</a>, <a href="https://viaf.org/">VIAF</a>, e dal catalogo.
+			 Puoi selezionare questo campo come filtro da visualizzare nella pagina Esplora. Puoi creare tutti i filtri che vuoi. 
 			 </p>
-		<p><code>Location</code>: a place that can be geolocalised. Similarly to entities, autocompletion suggestions from <a href="http://www.geonames.org/">geonames</a> will appear.</p>
-		<p><code>URL</code>: the address of a web resource.</p>
-		<h5>Text area</h5>
-		<p>A Textarea allows for longer text descriptions to be annotated.
-			When filling in, press return to enable entity extraction from text (e.g. people names, places, organizations).
-			You will be able to accept or reject suggestions, and these will be automatically added to your data (by means of <code>schema:keywords</code>)</p>
-		<h5>Dropdown and checkbox</h5>
-		<p>Create your own controlled vocabulary in <code>VALUES</code>.
-			For each line include the full URI and the label of a term separated by comma. URIs can be from external vocabularies or reuse the URI base that you <a href="setup">setup</a>.</p>
+		<p><code>Collocazione</code>: un luogo che può essere geolocalizzato. Come per le entità, compariranno suggerimenti per il completamento automatico da <a href="http://www.geonames.org/">geonames</a>.</p>
+		<p><code>URL</code>: l'indirizzo di una risorsa web.</p>
+		<h5>Area di testo</h5>
+		<p>AL'area di testo consente di annotare lunghe descrizioni testuali.
+			Quando la compili, premi invio per consentire l'estrazione automatica di entità dal testo (ad esempio nomi di persone, luoghi, organizzazioni).
+			Puoi accettare o rifiutare i suggerimenti, e questi verranno automaticamente aggiunti ai tuoi dati (tramite <code>schema:keywords</code>)</p>
+		<h5>Opzioni a tendina e caselle di spunta</h5>
+		<p>Crea la tua terminologia controllata in <code>VALORI</code>.
+			Per ciascuna riga includi l'URI completo e l'etichetta del termine separati da virgola. Gli URI possono utilizzare vocabolari esterni o riutilizzare l'URI base della tua <a href="setup">configurazione</a>.</p>
 		<h5>Date</h5>
-		<p><code>Full Date</code>: a complete date corresponding to the <code>xsd:Date</code> type, i.e.: YYYY/MM/DD. You can select the value from a calendar.</p>
-		<p><code>Month and Year</code>: a date corresponding to the <code>xsd:gYearMonth</code> type, i.e.: YYYY/MM. You can select the value from a calendar.</p>
-		<p><code>Year</code>: a date corresponding to the <code>xsd:gYear</code> type, i.e.: YYYY. You can select a year from a dropdown.</p>
+		<p><code>Data completa</code>: la data completa che corrisponde al tipo <code>xsd:Date</code>, ovvero: AAAA/MM/GG. Puoi selezionare il valore dal calendario.</p>
+		<p><code>Mese e anno</code>: una data corrispondente al tipo <code>xsd:gYearMonth</code>, ovvero: AAAA/MM. Puoi selezionare il valore dal calendario.</p>
+		<p><code>Anno</code>: una data che corrisponde al tipo <code>xsd:gYear</code>, ovvero: AAAA. Puoi selezionare un anno dalle opzioni a tendina.</p>
 		<h5>Multimedia</h5>
-		<p>Specify the path to an external multimedia resource. The url <b>must</b> end with the resource format. You can either select the type of resource (audio, video, image) or allow any type of multimedia to be linked (all).</p>
-		<p><code>Audio</code>: provide a path to external audio resources. The allowed formats are ".mp3", ".wav", ".wma", ".ogg".</p>
-		<p><code>Image</code>: provide a path to external image resources. The allowed formats are ".apng", ".avif", ".gif", ".ico", ".jpg", ".jpeg", ".jfif", ".pjpeg", ".pjp", ".png", ".svg", ".webp".</p>
-		<p><code>Video</code>: provide a path to external videoaudio resources. The allowed formats are ".mp4", ".ogg", ".webm".</p>
-		<p><code>All</code>: provide a path to external multimedia resources (audio, images, video). Make sure the formats of these resources comply with the allowed formats for each respective type.</p>
-		<h5>Vocabulary</h5>
-		<p>Import vocabularies from selected SKOS vocabularies. Currently the following vocabularies are supported:</p> 
-		<p>You can add new vocabularies by specifying a label, a link to the vocabulary webpage, and the URL of its SPARQL endpoint. Additionally, include the SPARQL query constraints to get a <code>?label</code> and a <code>?uri</code> for each retrieved term of the vocabulary. New vocabularies will be stored for later reuse.</p>
-		<h5>Website Preview</h5>
-		<p>Provide the url to embed a webpage's preview within a record.</p>
+		<p>Specifica il percorso alla risorsa multimediale esterna. L'URL <b>deve</b> finire con il formato della risorsa. Puoi selezionare il tipo di risorsa (audio, immagine, video) o consentire l'inserimento di ogni tipo di multimedia (tutti).</p>
+		<p><code>Audio</code>: fornisci un percorso alla risorsa audio esterna. I formati consentiti sono: ".mp3", ".wav", ".wma", ".ogg".</p>
+		<p><code>Immagine</code>: fornisci un percorso alla risorsa esterna. Sono consentiti i formati: ".apng", ".avif", ".gif", ".ico", ".jpg", ".jpeg", ".jfif", ".pjpeg", ".pjp", ".png", ".svg", ".webp".</p>
+		<p><code>Video</code>: fornisci un percorso alla riorsa audiovisiva esterna. I formati consentiti sono: ".mp4", ".ogg", ".webm".</p>
+		<p><code>Tutti</code>: fornisci un percorso alla risorsa multimediale esterna (audio, immagine, video). Assicurati che i formati delle risorse corrispondano ai formati consentiti per ogni singola tipologia.</p>
+		<h5>Vocabolari</h5>
+		<p>Importa vocabolari da quelli SKOS selezionati. Attualmente sono supportati i seguenti vocabolari:</p> 
+		<p>Puoi aggiungere nuovi vocabolari specificando l'etichetta, un link alla pagina del vocazbolario, e l'URL del suo endpoint SPARQL. In aggiunta, includi nella richiesta SPARQL i vincoli per ottenere un <code>?label</code> e un  <code>?uri</code> per ogni termine estratto dal vocabolario. I nuovi vocabolari verrano salvati per poter essere utilizzati in seguito.</p>
+		<h5>Anteprima di sito web</h5>
+		<p>Fornisci l'URL per incorporare l'anteprima di una pagina web nella scheda.</p>
 		<h5>Knowledge Extraction</h5>
-		<p>Automatic extraction of Key Entities through queries (API, SPARQL, Static Files)</p>
+		<p>Estrazione automatica di Entità chiave, tramite richieste (API, SPARQL, Static Files)</p>
 	</section>
 
 </section>
