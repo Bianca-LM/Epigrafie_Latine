@@ -38,7 +38,7 @@ $var project = project
 										<option value="WebsitePreview">Anteprima di sito (iframe)</option>
 										</select>
 										<script type="text/javascript">
-											$$('#type__$id option[value$$=$field["type"]').attr("selected","selected");
+											$$("#type__$id option[value$$=$field['type']]").attr("selected","selected");
 										</script>
 									</section>
 
@@ -75,7 +75,7 @@ $var project = project
 													<option value="URL">URL</option>
 												</select>
 												<script type="text/javascript">
-													$$('#value__$id option[value$$=$field["value"]').attr("selected","selected");
+													$$('#value__$id option[value$$=$field["value"]]').attr("selected","selected");
 												</script>
 											</section>												
 											<!-- PLACEHOLDER -->
@@ -99,7 +99,7 @@ $var project = project
 												</select>
 											</section>
 											<script type="text/javascript">
-												$$("#lang__$id option[value$$=$field['lang']").attr("selected","selected");
+												$$("#lang__$id option[value$$=$field['lang']]").attr("selected","selected");
 											</script>
 
 										$elif field['type'] == 'Date':
@@ -113,7 +113,7 @@ $var project = project
 													<option value='Year'>Anno</option>
 												</select>
 												<script type="text/javascript">
-													$$("#calendar__$id option[value$$=$field['calendar']").attr("selected","selected");
+													$$("#calendar__$id option[value$$=$field['calendar']]").attr("selected","selected");
 												</script>
 											</section>
 										$elif field['type'] == 'Multimedia':
@@ -128,7 +128,7 @@ $var project = project
 													<option value='Audio Image Video'>Tutti</option>
 												</select>
 												<script type="text/javascript">
-													$$("#multimedia__$id option[value$$='"+"$field['multimedia']"+"']").attr("selected","selected");
+													$$("#multimedia__$id option[value$$='"+"$field['multimedia']]"+"']").attr("selected","selected");
 												</script>
 											</section>
 										$elif field['type'] == 'Vocab':
@@ -218,7 +218,7 @@ $var project = project
 					<a class="link_btn" onclick="add_field('Date','$res_type')" name="add_date">Aggiungi Date</a>
 					<a class="link_btn" onclick="add_field('Multimedia','$res_type')" name="add_multimedia">Aggiungi Multimedia</a>
 					$ vocabs = "//".join(list(skos_vocabs.keys()))
-					<a class="link_btn" onclick="add_field('Vocab','$res_type', '$vocabs')" name="add_vocabulary">Aggiungi Vocabulari</a>
+					<a class="link_btn" onclick="add_field('Vocab','$res_type', '$vocabs')" name="add_vocabulary">Aggiungi Vocabolari</a>
 					<a class="link_btn" onclick="add_field('WebsitePreview','$res_type')" name="add_preview">Aggiungi Anteprima di sito web</a>
 					<a class="link_btn" onclick="add_field('KnowledgeExtractor','$res_type')" name="add_extractor">Aggiungi  Knowledge Extraction</a>
 					<script type="text/javascript">
