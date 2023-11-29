@@ -126,7 +126,8 @@ def inputToRDF(recordData, userID, stage, knowledge_extraction, graphToClear=Non
 			# the main entity has the same URI of the graph but the final /
 
 			if isinstance(value,str) and len(value) >= 1: # data properties
-				#value = value.replace('\n','').replace('\r','')
+				if field['type'] != 'Textarea':
+					value = value.replace('\n','').replace('\r','')
 				if 'calendar' in field:
 					if field['calendar'] == 'Day':
 						wd.add((URIRef(base+graph_name), URIRef(field['property']), Literal(value, datatype=XSD.date)))
@@ -145,23 +146,32 @@ def inputToRDF(recordData, userID, stage, knowledge_extraction, graphToClear=Non
 					
 					#EPIGRAFI DATA CUSTOMIZATION
 					#MAP-TRIAL
-					elif field['id'] == '1697705152738': #insert timestamp of the field "Collocation"
-						locator = Nominatim(user_agent="myGeocoder")
-						location = locator.geocode(value)
-						wd.add(( URIRef(base+graph_name), URIRef('https://w3id.org/arco/ontology/location/lat'), Literal(location.latitude)))
-						wd.add(( URIRef(base+graph_name), URIRef('https://w3id.org/arco/ontology/location/long'), Literal(location.longitude)))
+					elif field['id'] == '1700830276282': #insert timestamp of the field "Collocation"
+						print(value)
+						locator = Nominatim(user_agent="http")
+						try:
+							location = locator.geocode(value)
+							print(location)
+							if hasattr(location,'latitude') and location.latitude != None:
+								wd.add(( URIRef(base+graph_name), URIRef('https://w3id.org/arco/ontology/location/lat'), Literal(location.latitude)))
+								wd.add(( URIRef(base+graph_name), URIRef('https://w3id.org/arco/ontology/location/long'), Literal(location.longitude)))
+						except:
+							print("L'indirizzo non è valido")
 						wd.add(( URIRef(base+graph_name), URIRef(field['property']), Literal(value) ))
 
 					else: 
 						wd.add(( URIRef(base+graph_name), URIRef(field['property']), Literal(value)))
 
 			elif 'value' in field and field['value'] == 'URL':
+				print(value)
 				for entity in value:
+					print(entity, "ENTITY 1", entity[1])
 					if entity[1] != "":
 						to_add = entity[1]
+						print("TO ADD", to_add)
 						if not to_add.startswith("http"):
 							to_add = "http://" + to_add
-						wd.add(( URIRef(base+graph_name), URIRef(field['property']), URIRef(to_add) ))
+						wd.add(( URIRef(base+graph_name), URIRef(field['property']), URIRef(to_add)))
 			else: # object properties
 				for entity in value:
 					entityURI = getRightURIbase(entity[0]) # Wikidata or new entity 
