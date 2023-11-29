@@ -25,15 +25,16 @@ $var project = project
 							$else:
 								$if len(value) > 1:
 									$for v in value:
-										$if "//it" in v and field == "Traduzione italiana":
+										$if "//it" in v and properties[field][1]=="Textarea" and field != "Traduzione inglese":
 											$ value = v.replace("//it", "")
 											$break
-										$if "//en" in v and field == "Traduzione inglese":
+										$if "//en" in v and properties[field][1]=="Textarea" and field != "Traduzione italiana":
 											$ value = v.replace("//en", "")
-											$if "\n" in value:
 											$break
 								$else: 
 									$ value = value[0]
+									$if value.endswith("//it"):
+										$ value = value.replace("//it", "")
 							<p class="$properties[field][1].lower()" property="$properties[field][0]">$value</p>
 						$else:
 							$if len(value[0][1]) > 0:
@@ -65,8 +66,8 @@ $var project = project
 										</p>
 									$else:
 										$if 'http' in uri_value[0]:
-											<!-- external uri or external vocabulary terms -->
-											$ here = uri_value[1] if (uri_value[0] != uri_value[1] or (uri_value[0] == uri_value[1] and len(uri_value[0]) <= 30) ) else "link"
+											<!-- external uri or external vocabulary terms | EPIGRAFI DATA CUSTOMIZATION: removed  and len(uri_value[0]) <= 30-->
+											$ here = uri_value[1] if (uri_value[0] != uri_value[1] or (uri_value[0] == uri_value[1]) ) else "link"
 											<p property="$properties[field][0]">
 												$if properties[field][1] == 'Multimedia':
 													<!-- multimedia -->
