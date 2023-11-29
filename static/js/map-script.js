@@ -1,6 +1,6 @@
 //MAP SCRIPT
 
-const coordinatesQuery = 'SELECT DISTINCT ?address ?lat ?long WHERE {?s <http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location> ?address; 	<https://w3id.org/arco/ontology/location/lat> ?lat; 	<https://w3id.org/arco/ontology/location/long> ?long}';
+const coordinatesQuery = 'prefix dcterm: <http://purl.org/dc/terms/> SELECT DISTINCT ?s ?label ?lat ?long WHERE { ?s <https://w3id.org/arco/ontology/location/lat> ?lat;  <https://w3id.org/arco/ontology/location/long> ?long. ?s dcterm:title ?label. ?s1 <http://dbpedia.org/ontology/currentStatus> "published"; dcterm:title ?label. }';
 const encodedCoordinatesQuery = encodeURIComponent(coordinatesQuery);
 
 $(document).ready(function() {
@@ -19,9 +19,10 @@ $(document).ready(function() {
             console.log("R", data);
             var latitude = data[i].lat.value;
             var longitude = data[i].long.value;
-            var address = data[i].address.value
+            var label = data[i].label.value;
+            var id = data[i].s.value.replace("https://w3id.org/clef/", "")
             console.log(latitude, longitude)
-            setMarkers(latitude, longitude,address, map)
+            setMarkers(latitude, longitude, label, map, id)
           }
         }
       },
@@ -44,43 +45,10 @@ $(document).ready(function() {
 });
 
 
-function setMarkers(Lat, Long, name, map) {
+function setMarkers(Lat, Long, name, map, id) {
 
 	var marker = L.marker([Lat, Long]).addTo(map);
-	marker.bindPopup(name).openPopup(); 
+	marker.bindPopup("<a href='view-"+id+"'>"+name+"</a>"); 
 }
 
 
-//IMAGE VIEWER
-
-
-
-
-function addImage() {
-  console.log("HERE")
-  const queryImages = 'SELECT DISTINCT ?imageLinks WHERE {<http://www.cidoc-crm.org/cidoc-crm/E22_Human-Made_Object> <http://www.cidoc-crm.org/cidoc-crm/P138i_has_representation> ?object. ?object <crm:P138i_has_representation>  ?imageLinks} LIMIT 1';
-  const encodedQueryImages = encodeURIcomponent(queryImages); 
-  $.ajax({
-    url: '/blaze?q=' + encodedQueryImages,
-    type: 'GET',
-    success: function(result_json) {
-      console.log(result_json);
-      var data = result_json.results.bindings
-      console.log(data)
-      var div = document.getElementById("epigrafe")
-      if (data.length > 0) { 
-        for(var i=0;i<data.length;i++) { 
-          var figure = document.createElement("figure")
-          var img = document.createElement("img")
-          var link = data[i].imageLinks.value;
-          div.appendChild(figure)
-          figure.appendChild(img)
-          img.setAttribute("src", "link")
-        }
-      }
-    },
-    error: function(xhr, status, error) {
-      console.error(error);
-    }
-  });
-}
