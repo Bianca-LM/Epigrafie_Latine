@@ -69,17 +69,23 @@ $(document).ready(function() {
 
   // Suggest vocabularies links
   $("input[type='text'][class*=' vocabularyField ']").each(function() {
+    console.log(this)
     const vocabs_link = [];
     const id = $(this).attr("id");
     var selected_vocabs = $("#"+id).attr("class").split(" ");
-
+    console.log(selected_vocabs)
     selected_vocabs.forEach(function(vocab_name) {
-      if (list_vocabs.includes(vocab_name)) {
-        const vocab_name_clean = vocab_name.replace("-", " ");
-        console.log(vocab_name);
-        const vocab_url = vocab_name_clean + "," + skos_vocabs_json[vocab_name].url;
-        vocabs_link.push(vocab_url);
-      } 
+      try{
+          if (list_vocabs.includes(vocab_name)) {
+          const vocab_name_clean = vocab_name.replace("-", " ");
+          console.log(vocab_name);
+          const vocab_url = vocab_name_clean + "," + skos_vocabs_json[vocab_name].url;
+          vocabs_link.push(vocab_url);
+        } 
+      }
+      catch (error){ //EPIGRAFI DATA CUSTOMIZATION
+        console.log("Un vocabolario non sta funzionando. Controlla che l'endpoint SPARQL sia ancora valido e funzionante")
+      }
     });
 
     const div = $("<div id='" + id + "__vocabsLink' style='margin-bottom: 10px; margin-top: -5px'>");
@@ -89,12 +95,18 @@ $(document).ready(function() {
       div.insertBefore($(this));
     }
     div.append("<span style='font-weight:100'>Controlla i vocabolari disponibili:</span></br>");
-    
-    vocabs_link.forEach(function(link) {
-      const name = link.split(",")[0].toUpperCase();
-      const url = link.split(",")[1];
-      div.append("<a target='_blank' class='vocab_link' href='" + url + "'>" + name + "</a>");
-    });
+
+    //EPIGRAFI DATA CUSTOMIZATION
+    if (vocabs_link.length == 0) {
+      div.append("<span style='color:red;'>Il vocabolario non sta funzionando, lascia il campo libero e riprova più tardi</span></br>")
+    }
+    else {
+      vocabs_link.forEach(function(link) {
+        const name = link.split(",")[0].toUpperCase();
+        const url = link.split(",")[1];
+        div.append("<a target='_blank' class='vocab_link' href='" + url + "'>" + name + "</a>");
+      });
+    }
   });  
 
 	// search WD, VIAF, my data, vocabs, years + add URLs 
@@ -791,7 +803,7 @@ function searchCatalogue(searchterm) {
 
             if (!returnedJson.length) {
                   $("#searchresultmenu").empty();
-                  var nores = "<div class='wditem noresults'>Searching...</div>";
+                  var nores = "<div class='wditem noresults'>Sto cercando...</div>";
                   $("#searchresultmenu").append(nores);
                   // remove messages after 1 second
                   setTimeout(function(){
@@ -1910,6 +1922,7 @@ function save_vocab(element) {
   // extract a label, a url, a query, and an endpoint to store a new vocab
   var label = $('#vocabLabel').val();
   var url = $('#vocabUrl').val();
+  //NEED TO ADD: remove \n \r from query
   var query = encodeURIComponent($('#vocabQuery').val());
   var endpoint = $('#vocabEndpoint').val();
   // combine the pieces of information together and check whether some info is missing
